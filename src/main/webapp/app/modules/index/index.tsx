@@ -1,7 +1,7 @@
 import './index.scss';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { Row, Col, Alert } from 'reactstrap';
@@ -17,6 +17,11 @@ export class Index extends React.Component<IIndexProp> {
   }
 
   render() {
+    // Authificated redirect to home
+    if (this.props.isAuthenticated) {
+      return <Redirect to="/home" />;
+    }
+
     return (
       <Row>
         <Col md="9">

@@ -44,11 +44,6 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
 
     /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
 
-    // Hide header on index only page
-    if (location.pathname === '/' || location.pathname.match('/index')) {
-      return null;
-    }
-
     return (
       <div id="app-header">
         {this.renderDevRibbon()}
