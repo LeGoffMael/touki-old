@@ -44,8 +44,8 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
 
     /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
 
-    // Hide header on index page
-    if (location.pathname.match('/' || '/index')) {
+    // Hide header on index only page
+    if (location.pathname === '/' || location.pathname.match('/index')) {
       return null;
     }
 
