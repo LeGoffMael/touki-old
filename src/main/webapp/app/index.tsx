@@ -10,7 +10,6 @@ import { clearAuthentication } from './shared/reducers/authentication';
 import ErrorBoundary from './shared/error/error-boundary';
 import AppComponent from './app';
 import { loadIcons } from './config/icon-loader';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const devTools = process.env.NODE_ENV === 'development' ? <DevTools /> : null;
 
@@ -18,8 +17,6 @@ const store = initStore();
 
 const actions = bindActionCreators({ clearAuthentication }, store.dispatch);
 setupAxiosInterceptors(() => actions.clearAuthentication('login.error.unauthorized'));
-
-loadIcons();
 
 const rootEl = document.getElementById('root');
 
