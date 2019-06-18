@@ -20,14 +20,35 @@ export class Home extends React.Component<IHomeProp> {
     const { account } = this.props;
     return (
       <Row>
+        {/* Side bar */}
         <Col md="3">
-          <p> test </p>
+          <div className="profilNav">
+            <div className="userInfoNav">
+              <div className="profilPhotoNav">
+                {' '}
+                <img />
+              </div>
+              <p className="text-center font-weight-bold"> {account.login}</p>
+              <p className="text-left">{account && account.badge ? account.badge : '-no badge-'}</p>
+            </div>
+            <div className="text-left tripInforNav">
+              <a href="/entity/travel">New trip</a> <br />
+              <a href="">My trips</a>
+            </div>
+          </div>
         </Col>
+        {/* Wall */}
         <Col md="6">
-          <p> test </p>
+          <div className="wall">
+            <p className="text-left font-weight-bold"> News</p>
+          </div>
         </Col>
-        <Col md="3" className="pad">
-          <p> test </p>
+        {/* Trending destinations */}
+        <Col md="3">
+          <div className="trendingDestination">
+            <p className="text-center font-weight-bold"> Trending destinations</p>
+            <div className="trendingDestinationList" />
+          </div>
         </Col>
       </Row>
     );
