@@ -18,6 +18,8 @@ const store = initStore();
 const actions = bindActionCreators({ clearAuthentication }, store.dispatch);
 setupAxiosInterceptors(() => actions.clearAuthentication('login.error.unauthorized'));
 
+loadIcons();
+
 const rootEl = document.getElementById('root');
 
 const render = Component =>

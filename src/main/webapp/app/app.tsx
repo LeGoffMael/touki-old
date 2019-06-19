@@ -32,13 +32,14 @@ export class App extends React.Component<IAppProps> {
   }
 
   render() {
-    const paddingTop = '60px';
-    return (
-      <Router basename={baseHref}>
-        <div className="app-container" style={{ paddingTop }}>
-          <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
-          <ErrorBoundary>
-            {this.props.isAuthenticated && (
+    // If user connected display internal website design else display index page
+    if (this.props.isAuthenticated) {
+      const paddingTop = '60px';
+      return (
+        <Router basename={baseHref}>
+          <div className="app-container" style={{ paddingTop }}>
+            <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
+            <ErrorBoundary>
               <Header
                 isAuthenticated={this.props.isAuthenticated}
                 isAdmin={this.props.isAdmin}
@@ -46,19 +47,32 @@ export class App extends React.Component<IAppProps> {
                 isInProduction={this.props.isInProduction}
                 isSwaggerEnabled={this.props.isSwaggerEnabled}
               />
-            )}
-          </ErrorBoundary>
-          <div className="container-fluid view-container" id="app-view-container">
-            <Card className="jh-card">
+            </ErrorBoundary>
+            <div className="view-container" id="app-view-container">
+              <Card className="jh-card">
+                <ErrorBoundary>
+                  <AppRoutes />
+                </ErrorBoundary>
+              </Card>
+              <Footer />
+            </div>
+          </div>
+        </Router>
+      );
+    } else {
+      return (
+        <Router basename={baseHref}>
+          <div className="app-container">
+            <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
+            <div>
               <ErrorBoundary>
                 <AppRoutes />
               </ErrorBoundary>
-            </Card>
-            {this.props.isAuthenticated && <Footer />}
+            </div>
           </div>
-        </div>
-      </Router>
-    );
+        </Router>
+      );
+    }
   }
 }
 
