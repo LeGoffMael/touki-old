@@ -145,7 +145,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
     }
 
     public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        if(imageUrl == null) {
+            this.imageUrl = "content/images/default-avatar.png";
+        } else {
+            this.imageUrl = imageUrl;
+        }
     }
 
     public boolean getActivated() {
