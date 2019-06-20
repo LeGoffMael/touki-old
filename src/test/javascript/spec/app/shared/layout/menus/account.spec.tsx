@@ -9,13 +9,13 @@ describe('AccountMenu', () => {
 
   const authenticatedWrapper = () => {
     if (!mountedWrapper) {
-      mountedWrapper = shallow(<AccountMenu isAuthenticated />);
+      mountedWrapper = shallow(<AccountMenu isAuthenticated userLogin userImageUrl />);
     }
     return mountedWrapper;
   };
   const guestWrapper = () => {
     if (!mountedWrapper) {
-      mountedWrapper = shallow(<AccountMenu />);
+      mountedWrapper = shallow(<AccountMenu isAuthenticated userLogin userImageUrl />);
     }
     return mountedWrapper;
   };
@@ -25,6 +25,8 @@ describe('AccountMenu', () => {
   });
 
   // All tests will go here
+
+  // Login & logout has been deleted from header
 
   it('Renders a authenticated AccountMenu component', () => {
     const dropdown = authenticatedWrapper().find(NavDropdown);
@@ -36,7 +38,7 @@ describe('AccountMenu', () => {
   it('Renders a guest AccountMenu component', () => {
     const dropdown = guestWrapper().find(NavDropdown);
     expect(dropdown).toHaveLength(1);
-    expect(dropdown.find({ to: '/login' })).toHaveLength(1);
-    expect(dropdown.find({ to: '/logout' })).toHaveLength(0);
+    expect(dropdown.find({ to: '/login' })).toHaveLength(0);
+    expect(dropdown.find({ to: '/logout' })).toHaveLength(1);
   });
 });

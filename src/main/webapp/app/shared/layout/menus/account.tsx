@@ -1,39 +1,34 @@
 import React from 'react';
 import MenuItem from 'app/shared/layout/menus/menu-item';
 import { DropdownItem } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavLink as Link } from 'react-router-dom';
 
 import { NavDropdown } from './menu-components';
 
 const accountMenuItemsAuthenticated = (
   <>
+    <MenuItem icon="user" to="/account/profile">
+      Profile
+    </MenuItem>
+    <MenuItem icon="plus" to="/entity/travel/new">
+      New travel
+    </MenuItem>
+    <DropdownItem divider />
     <MenuItem icon="wrench" to="/account/settings">
-      Settings
+      Edit profile
     </MenuItem>
     <MenuItem icon="lock" to="/account/password">
       Password
     </MenuItem>
+    <DropdownItem divider />
     <MenuItem icon="sign-out-alt" to="/logout">
       Sign out
     </MenuItem>
   </>
 );
 
-const accountMenuItems = (
-  <>
-    <MenuItem id="login-item" icon="sign-in-alt" to="/login">
-      Sign in
-    </MenuItem>
-    <MenuItem icon="sign-in-alt" to="/register">
-      Register
-    </MenuItem>
-  </>
-);
-
-export const AccountMenu = ({ isAuthenticated = false }) => (
-  <NavDropdown icon="user" name="Account" id="account-menu">
-    {isAuthenticated ? accountMenuItemsAuthenticated : accountMenuItems}
+export const AccountMenu = ({ isAuthenticated = false, userLogin, userImageUrl }) => (
+  <NavDropdown name={userLogin} image={userImageUrl} id="account-menu">
+    {isAuthenticated && accountMenuItemsAuthenticated}
   </NavDropdown>
 );
 

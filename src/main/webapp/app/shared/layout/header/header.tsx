@@ -17,6 +17,8 @@ export interface IHeaderProps {
   ribbonEnv: string;
   isInProduction: boolean;
   isSwaggerEnabled: boolean;
+  userLogin: string;
+  userImageUrl: string;
 }
 
 export interface IHeaderState {
@@ -40,7 +42,7 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
   };
 
   render() {
-    const { isAuthenticated, isAdmin, isSwaggerEnabled, isInProduction } = this.props;
+    const { isAuthenticated, isAdmin, isSwaggerEnabled, isInProduction, userLogin, userImageUrl } = this.props;
 
     /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
 
@@ -56,7 +58,7 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
               {isAuthenticated && <Home />}
               {isAuthenticated && <EntitiesMenu />}
               {isAuthenticated && isAdmin && <AdminMenu showSwagger={isSwaggerEnabled} />}
-              <AccountMenu isAuthenticated={isAuthenticated} />
+              <AccountMenu isAuthenticated={isAuthenticated} userLogin={userLogin} userImageUrl={userImageUrl} />
             </Nav>
           </Collapse>
         </Navbar>

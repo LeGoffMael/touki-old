@@ -32,6 +32,8 @@ export class App extends React.Component<IAppProps> {
   }
 
   render() {
+    const { account } = this.props;
+
     // If user connected display internal website design else display index page
     if (this.props.isAuthenticated) {
       const paddingTop = '60px';
@@ -46,6 +48,8 @@ export class App extends React.Component<IAppProps> {
                 ribbonEnv={this.props.ribbonEnv}
                 isInProduction={this.props.isInProduction}
                 isSwaggerEnabled={this.props.isSwaggerEnabled}
+                userLogin={account.login}
+                userImageUrl={account.imageUrl}
               />
             </ErrorBoundary>
             <div className="view-container" id="app-view-container">
@@ -77,6 +81,7 @@ export class App extends React.Component<IAppProps> {
 }
 
 const mapStateToProps = ({ authentication, applicationProfile }: IRootState) => ({
+  account: authentication.account,
   isAuthenticated: authentication.isAuthenticated,
   isAdmin: hasAnyAuthority(authentication.account.authorities, [AUTHORITIES.ADMIN]),
   ribbonEnv: applicationProfile.ribbonEnv,

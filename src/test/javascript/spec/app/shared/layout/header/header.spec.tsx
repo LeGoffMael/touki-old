@@ -16,7 +16,9 @@ describe('Header', () => {
     isAdmin: true,
     ribbonEnv: 'dev',
     isInProduction: false,
-    isSwaggerEnabled: true
+    isSwaggerEnabled: true,
+    userLogin: 'login',
+    userImageUrl: 'avatar'
   };
   const prodProps = {
     ...devProps,
@@ -89,6 +91,8 @@ describe('Header', () => {
     expect(nav.find(EntitiesMenu).length).toEqual(1);
     const account = nav.find(AccountMenu);
     expect(account.first().props().isAuthenticated).toEqual(true);
+    expect(account.first().props().userLogin).toEqual('login');
+    expect(account.first().props().userImageUrl).toEqual('avatar');
   });
 
   it('Renders a Header component in prod profile with no logged in User', () => {

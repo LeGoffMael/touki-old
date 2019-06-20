@@ -58,10 +58,12 @@ Navbar styles
     padding: 0.5em;
     .nav-item {
       margin-left: 1.5rem;
+      align-self: center;
     }
   }
   a.nav-link {
     font-weight: 400;
+
     > span {
       margin-left: 5px;
     }
@@ -110,4 +112,11 @@ Navbar styles
   position: absolute;
   top: 0px;
   z-index: 1031;
+}
+
+.avatar {
+  object-fit: cover;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
 }
