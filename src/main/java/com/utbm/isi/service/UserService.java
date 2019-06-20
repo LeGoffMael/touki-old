@@ -3,8 +3,10 @@ package com.utbm.isi.service;
 import com.utbm.isi.config.Constants;
 import com.utbm.isi.domain.Authority;
 import com.utbm.isi.domain.User;
+import com.utbm.isi.domain.UserExtra;
 import com.utbm.isi.repository.AuthorityRepository;
 import com.utbm.isi.repository.UserRepository;
+import com.utbm.isi.repository.UserExtraRepository;
 import com.utbm.isi.security.AuthoritiesConstants;
 import com.utbm.isi.security.SecurityUtils;
 import com.utbm.isi.service.dto.UserDTO;
@@ -36,14 +38,17 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final UserExtraRepository userExtraRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, UserExtraRepository userExtraRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
+        this.userExtraRepository = userExtraRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -112,6 +117,13 @@ public class UserService {
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
+
+        // Create and save the UserExtra entity
+        UserExtra newUserExtra = new UserExtra();
+        newUserExtra.setUser(newUser);
+        userExtraRepository.save(newUserExtra);
+        log.debug("Created Information for UserExtra: {}", newUserExtra);
+
         return newUser;
     }
 
@@ -151,6 +163,7 @@ public class UserService {
         }
         userRepository.save(user);
         log.debug("Created Information for User: {}", user);
+
         return user;
     }
 
