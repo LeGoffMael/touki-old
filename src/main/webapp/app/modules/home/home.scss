@@ -17,211 +17,6 @@ Main page styles
   border-top: 0.5px solid #849199;
 }
 
-/* Cross Browser Compatability CSS */
-/**
- * html5doctor.com Reset Stylesheet (Eric Meyer's Reset Reloaded + HTML5 baseline)
- * v1.6.1 2010-09-17 | Authors: Eric Meyer & Richard Clark
- * html5doctor.com/html-5-reset-stylesheet/
- */
-
-html,
-body,
-div,
-span,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-abbr,
-address,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-samp,
-small,
-strong,
-sub,
-sup,
-var,
-b,
-i,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
-
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-  display: block;
-}
-
-blockquote,
-q {
-  quotes: none;
-}
-
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: '';
-  content: none;
-}
-
-ins {
-  background-color: #ff9;
-  color: #000;
-  text-decoration: none;
-}
-
-mark {
-  background-color: #ff9;
-  color: #000;
-  font-style: italic;
-  font-weight: bold;
-}
-
-del {
-  text-decoration: line-through;
-}
-
-abbr[title],
-dfn[title] {
-  border-bottom: 1px dotted;
-  cursor: help;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1em 0;
-  padding: 0;
-}
-
-input,
-select {
-  vertical-align: middle;
-}
-
-/*********************************************************/
-/********************** Custom CSS **********************/
-/*******************************************************/
-html * {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-*,
-*:after,
-*:before {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-body {
-  font-size: 100%;
-  font-family: 'Karma', serif;
-  color: #7f8c97;
-  background-color: #e9f0f5;
-}
-
-a {
-  font-family: 'Karma', serif;
-  text-decoration: none;
-}
-
-img {
-  max-width: 100%;
-}
-
-h1 {
-  margin: 3%;
-  font-family: 'Avant Garde', Avantgarde, 'Century Gothic', CenturyGothic, 'AppleGothic', sans-serif;
-  font-size: 30px;
-  font-weight: 500;
-  color: #669999;
-  text-align: center;
-}
-
-h3 {
-  font-family: 'Avant Garde', Avantgarde, 'Century Gothic', CenturyGothic, 'AppleGothic', sans-serif;
-  font-size: 30px;
-}
-
-@media only screen and (max-width: 600px) {
-  h3 {
-    font-size: 20px;
-  }
-}
-
 /*********************************************************/
 /********************** CONTAINER ***********************/
 /*******************************************************/
@@ -242,79 +37,36 @@ h3 {
 }
 
 /*********************************************************/
-/************************ HEADER ************************/
-/*******************************************************/
-header {
-  height: 200px;
-  /*line-height: 200px;*/
-  text-align: center;
-  background: url(http://cristykoebler.com/picture_library/Field.png) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-header h1 {
-  color: white;
-  font-size: 18px;
-  font-size: 1.125rem;
-}
-@media only screen and (min-width: 1170px) {
-  header {
-    height: 300px;
-    /*line-height: 300px;*/
-  }
-  header h1 {
-    font-size: 24px;
-    font-size: 1.5rem;
-  }
-}
-
-/*********************************************************/
-/********************** NAVIGATION **********************/
-/*******************************************************/
-.navigation {
-  text-align: center;
-  font-size: 30px;
-  /*padding: 0% 0% 3% 0%;*/
-  list-style: none outside none;
-  width: 100%;
-}
-
-.nav-links {
-  display: inline-block;
-  margin: 0.5% 3%;
-  padding: 5px 10px;
-  border: 3px solid LightGrey;
-}
-
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  font-family: 'Pacifico', cursive;
-}
-
-@media only screen and (max-width: 600px) {
-  .navigation {
-    font-size: 25px;
-    margin: 1%;
-  }
-
-  .nav-links {
-    display: block;
-    background: rgba(221, 221, 221, 0.7);
-  }
-}
-
-/*********************************************************/
 /********************* MAIN SECTION *********************/
 /*******************************************************/
+
+.timeline-title {
+  margin: 3%;
+  font-size: 30px;
+  font-weight: 500;
+  color: #669999;
+  text-align: center;
+}
 
 #timeline {
   position: relative;
   padding: 2em 0;
   margin-top: 2em;
   margin-bottom: 2em;
+
+  img {
+    max-width: 100%;
+  }
+
+  h3 {
+    font-size: 30px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    h3 {
+      font-size: 20px;
+    }
+  }
 }
 #timeline::before {
   /* this is the vertical line */

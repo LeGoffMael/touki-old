@@ -29,7 +29,7 @@ export class Home extends React.Component<IHomeProp> {
         </Col>
         {/* Wall */}
         <Col md="9">
-          <h1>TIMELINE</h1>
+          <h1 className="timeline-title">TIMELINE</h1>
           {/* section 1 */}
           <section id="timeline" className="timeline-container">
             <div className="timeline-block">

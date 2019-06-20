@@ -26,7 +26,7 @@ export class Travel extends React.Component<ITravelProps> {
     const { travelList, match } = this.props;
     return (
       <div>
-        <div className="table-responsive">
+        <div className="table-responsive travel-container">
           {travelList && travelList.length > 0 ? (
             <section>
               <div className="container">
@@ -36,7 +36,8 @@ export class Travel extends React.Component<ITravelProps> {
                       image="https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?h=350&amp;auto=compress&amp;cs=tinysrgb"
                       title={travel.title}
                       description={travel.description}
-                      id={travel.id} />
+                      id={travel.id}
+                    />
                   ))}
                 </Row>
               </div>
