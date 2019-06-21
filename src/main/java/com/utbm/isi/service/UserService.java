@@ -120,6 +120,7 @@ public class UserService {
 
         // Create and save the UserExtra entity
         UserExtra newUserExtra = new UserExtra();
+        newUserExtra.setId(newUser.getId());
         newUserExtra.setUser(newUser);
         userExtraRepository.save(newUserExtra);
         log.debug("Created Information for UserExtra: {}", newUserExtra);

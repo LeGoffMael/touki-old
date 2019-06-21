@@ -18,8 +18,6 @@ public class UserExtra implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @Column(name = "birth_date")
@@ -62,6 +60,11 @@ public class UserExtra implements Serializable {
     private Set<UserExtra> followers = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    public UserExtra id(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public Long getId() {
         return id;
     }

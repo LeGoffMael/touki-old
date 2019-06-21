@@ -2,11 +2,16 @@ import React from 'react';
 import { Button, Col, Alert, Row } from 'reactstrap';
 import { connect } from 'react-redux';
 
-import { AvForm, AvField } from 'availity-reactstrap-validation';
+import { AvForm, AvField, AvGroup, Label } from 'availity-reactstrap-validation';
 
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
 import { saveAccountSettings, reset } from './settings.reducer';
+
+import { IUserExtra } from 'app/shared/model/user-extra.model';
+import { getEntity, updateEntity } from '../../../entities/user-extra/user-extra.reducer';
+import { RouteComponentProps } from 'react-router';
+import { mapIdList } from 'app/shared/util/entity-utils';
 
 export interface IUserSettingsProps extends StateProps, DispatchProps {}
 
@@ -14,9 +19,13 @@ export interface IUserSettingsState {
   account: any;
 }
 
+// explicitly generate the start and end dates.
+const now = new Date().toJSON().split('T')[0];
+
 export class SettingsPage extends React.Component<IUserSettingsProps, IUserSettingsState> {
   componentDidMount() {
     this.props.getSession();
+    this.props.getEntity(this.props.account.id);
   }
 
   componentWillUnmount() {
@@ -33,8 +42,19 @@ export class SettingsPage extends React.Component<IUserSettingsProps, IUserSetti
     event.persist();
   };
 
+  handleExtraUserValidSubmit = (event, values) => {
+    const { userExtraEntity } = this.props;
+    const entity = {
+      ...userExtraEntity,
+      ...values
+    };
+
+    this.props.updateEntity(entity);
+    event.persist();
+  };
+
   render() {
-    const { account } = this.props;
+    const { account, userExtraEntity } = this.props;
 
     return (
       <div>
@@ -83,8 +103,40 @@ export class SettingsPage extends React.Component<IUserSettingsProps, IUserSetti
                 }}
                 value={account.email}
               />
+              {/* ImageUrl */}
+              <AvField name="imageUrl" label="Image URL" placeholder={'Your avatar image URL'} value={account.imageUrl} />
               <Button color="primary" type="submit">
-                Save
+                Save settings
+              </Button>
+            </AvForm>
+
+            <hr />
+
+            <h2 id="settings-title">User extra information</h2>
+            <AvForm id="extra-user-form" onValidSubmit={this.handleExtraUserValidSubmit}>
+              <AvField
+                name="birthDate"
+                label="Birth date"
+                placeholder={'Your date of birth'}
+                type="date"
+                validate={{
+                  max: { value: { now }, errorMessage: 'Your birth date cannot be in the future.' }
+                }}
+                value={userExtraEntity.birthDate}
+              />
+
+              <AvField
+                name="description"
+                label="Description"
+                placeholder={'Your description'}
+                type="textarea"
+                validate={{
+                  maxLength: { value: 254, errorMessage: 'Your description cannot be longer than 254 characters.' }
+                }}
+                value={userExtraEntity.description}
+              />
+              <Button color="primary" type="submit">
+                Save extra information
               </Button>
             </AvForm>
           </Col>
@@ -94,12 +146,13 @@ export class SettingsPage extends React.Component<IUserSettingsProps, IUserSetti
   }
 }
 
-const mapStateToProps = ({ authentication }: IRootState) => ({
+const mapStateToProps = ({ authentication, userExtra }: IRootState) => ({
   account: authentication.account,
-  isAuthenticated: authentication.isAuthenticated
+  isAuthenticated: authentication.isAuthenticated,
+  userExtraEntity: userExtra.entity
 });
 
-const mapDispatchToProps = { getSession, saveAccountSettings, reset };
+const mapDispatchToProps = { getSession, saveAccountSettings, reset, getEntity, updateEntity };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
