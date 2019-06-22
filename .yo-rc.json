@@ -1,0 +1,36 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.utbm.isi"
+    },
+    "jhipsterVersion": "6.1.0",
+    "applicationType": "monolith",
+    "baseName": "touki",
+    "packageName": "com.utbm.isi",
+    "packageFolder": "com/utbm/isi",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "ZjkzYjBiMjgxZTY0YTM4OGY5ODNlNmE2MDk5MzUxNmM0MjkwMjNkMDYyMjU4NzRkYTkxZmQ5MmQyMDQ5NWU5ODNmMjEzOGUyMGQyYjYxNDVhODJlYWNkYWNiOTA0M2U0MzAyZDcyYmIzN2I4YjY3Yzg4NDJiNTg4ZDI1M2RkOTY=",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "react",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false
+  }
+}
