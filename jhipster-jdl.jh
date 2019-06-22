@@ -1,0 +1,137 @@
+entity Travel {
+    title String required minlength(2) maxlength(20),
+    description String maxlength(200),
+    startDate LocalDate,
+    endDate LocalDate,
+    status TravelStatus required,
+    precaution String,
+    createdAt Instant,
+    updatedAt Instant
+}
+
+entity UserExtra {
+    birthDate LocalDate,
+    description String
+}
+
+entity Step {
+    title String required,
+    description String,
+	startDate LocalDate,
+    endDate LocalDate,
+    createdAt Instant,
+    updatedAt Instant
+}
+
+entity Photo {
+	link String required,
+    createdAt Instant,
+    updatedAt Instant
+}
+
+entity Reaction {
+    type ReactionType required
+}
+
+enum ReactionType {
+    LIKE, REPORT
+}
+
+entity Comment {
+    text String required,
+    createdAt Instant,
+    updatedAt Instant
+}
+
+entity CheckListItem {
+    name String required,
+	isDone Boolean required
+}
+
+entity Badge {
+    label String required,
+	icon String,
+	text String
+}
+
+entity Answer {
+    text String required
+}
+
+entity AnswerUser {
+    completeDate Instant
+}
+
+entity Question {
+    text String required
+}
+
+entity Survey {
+    label String required
+}
+
+enum TravelStatus {
+    PLANNED, CURRENT, DONE
+}
+
+entity Place {
+    name String required
+}
+
+entity City {
+    name String required,
+	latitude Float,
+	longitude Float
+}
+
+entity Country {
+    name String required,
+    code String required minlength(2) maxlength(2),
+}
+
+relationship ManyToMany {
+    UserExtra{badges} to Badge{users},
+    Travel{users} to UserExtra{travels},
+    Photo{steps} to Step{photos},
+    Step{places} to Place{steps},
+    UserExtra{followings} to UserExtra{followers}
+}
+
+relationship OneToOne {
+    UserExtra{user} to User
+}
+
+relationship OneToMany {
+	Travel{surveys} to Survey{travel},
+	UserExtra{answers} to AnswerUser{user},
+	Answer{answerResults} to AnswerUser{answer}
+}
+
+relationship ManyToOne {
+    Step{travel} to Travel{steps},
+    Step{city} to City{steps},
+    CheckListItem{travel} to Travel{checkListItems},
+    Comment{travel} to Travel{comments},
+    Comment{owner} to UserExtra{comments},
+    Answer{question} to Question{answers},
+    Question{survey} to Survey{questions},
+    Place{city} to City{places},
+    City{country} to Country{cities},
+    Reaction{owner} to UserExtra{reactions},
+    Reaction{travel} to Travel{reactions},
+    Reaction{photo} to Photo{reactions},
+    Reaction{comment} to Comment{reactions}
+}
+
+// Set pagination options
+// paginate ... with infinite-scroll
+// paginate ... with pagination
+
+// Use Data Transfert Objects (DTO)
+// dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl except TravelStatus, ReactionType
+
+// Set an angular suffix
+// angularSuffix * with mySuffix

@@ -1,0 +1,36 @@
+{
+    "name": "Survey",
+    "fields": [
+        {
+            "fieldName": "label",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "travel",
+            "otherEntityRelationshipName": "surveys",
+            "relationshipName": "travel",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "question",
+            "otherEntityRelationshipName": "survey",
+            "relationshipName": "questions"
+        }
+    ],
+    "changelogDate": "20190622135631",
+    "entityTableName": "survey",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

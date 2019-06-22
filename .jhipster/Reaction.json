@@ -1,0 +1,52 @@
+{
+    "name": "Reaction",
+    "fields": [
+        {
+            "fieldName": "type",
+            "fieldType": "ReactionType",
+            "fieldValues": "LIKE,REPORT",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "userExtra",
+            "otherEntityRelationshipName": "reactions",
+            "relationshipName": "owner",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "travel",
+            "otherEntityRelationshipName": "reactions",
+            "relationshipName": "travel",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "photo",
+            "otherEntityRelationshipName": "reactions",
+            "relationshipName": "photo",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "comment",
+            "otherEntityRelationshipName": "reactions",
+            "relationshipName": "comment",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190622135624",
+    "entityTableName": "reaction",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

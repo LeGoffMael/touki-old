@@ -1,0 +1,34 @@
+{
+    "name": "AnswerUser",
+    "fields": [
+        {
+            "fieldName": "completeDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "userExtra",
+            "otherEntityRelationshipName": "answers",
+            "relationshipName": "user",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "answer",
+            "otherEntityRelationshipName": "answerResults",
+            "relationshipName": "answer",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190622135629",
+    "entityTableName": "answer_user",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

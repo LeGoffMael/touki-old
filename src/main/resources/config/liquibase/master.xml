@@ -14,6 +14,34 @@
     <property name="uuidType" value="uuid" dbms="h2, postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135620_added_entity_Travel.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135621_added_entity_UserExtra.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135622_added_entity_Step.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135623_added_entity_Photo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135624_added_entity_Reaction.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135625_added_entity_Comment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135626_added_entity_CheckListItem.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135627_added_entity_Badge.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135628_added_entity_Answer.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135629_added_entity_AnswerUser.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135630_added_entity_Question.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135631_added_entity_Survey.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135632_added_entity_Place.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135633_added_entity_City.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135634_added_entity_Country.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20190622135620_added_entity_constraints_Travel.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135621_added_entity_constraints_UserExtra.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135622_added_entity_constraints_Step.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135623_added_entity_constraints_Photo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135624_added_entity_constraints_Reaction.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135625_added_entity_constraints_Comment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135626_added_entity_constraints_CheckListItem.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135628_added_entity_constraints_Answer.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135629_added_entity_constraints_AnswerUser.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135630_added_entity_constraints_Question.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135631_added_entity_constraints_Survey.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135632_added_entity_constraints_Place.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190622135633_added_entity_constraints_City.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

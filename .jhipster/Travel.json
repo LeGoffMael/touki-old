@@ -1,0 +1,101 @@
+{
+    "name": "Travel",
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 2,
+            "fieldValidateRulesMaxlength": 20
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 200
+        },
+        {
+            "fieldName": "startDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "endDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "TravelStatus",
+            "fieldValues": "PLANNED,CURRENT,DONE",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "precaution",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdAt",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "updatedAt",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "survey",
+            "otherEntityRelationshipName": "travel",
+            "relationshipName": "surveys"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "userExtra",
+            "otherEntityRelationshipName": "travels",
+            "relationshipName": "users",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "step",
+            "otherEntityRelationshipName": "travel",
+            "relationshipName": "steps"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "checkListItem",
+            "otherEntityRelationshipName": "travel",
+            "relationshipName": "checkListItems"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "comment",
+            "otherEntityRelationshipName": "travel",
+            "relationshipName": "comments"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "reaction",
+            "otherEntityRelationshipName": "travel",
+            "relationshipName": "reactions"
+        }
+    ],
+    "changelogDate": "20190622135620",
+    "entityTableName": "travel",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

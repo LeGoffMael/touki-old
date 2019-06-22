@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity Step.
+    -->
+    <changeSet id="20190622135622-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="travel_id"
+                                 baseTableName="step"
+                                 constraintName="fk_step_travel_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="travel"/>
+
+        <addForeignKeyConstraint baseColumnNames="city_id"
+                                 baseTableName="step"
+                                 constraintName="fk_step_city_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="city"/>
+
+        <addForeignKeyConstraint baseColumnNames="step_id"
+                                 baseTableName="step_places"
+                                 constraintName="fk_step_places_step_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="step"/>
+
+        <addForeignKeyConstraint baseColumnNames="places_id"
+                                 baseTableName="step_places"
+                                 constraintName="fk_step_places_places_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="place"/>
+        
+    </changeSet>
+</databaseChangeLog>
