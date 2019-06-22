@@ -8,6 +8,7 @@ import PasswordResetFinish from 'app/modules/account/password-reset/finish/passw
 import Logout from 'app/modules/login/logout';
 import Home from 'app/modules/home/home';
 import Index from 'app/modules/index/index';
+import Profile from 'app/modules/profile/index';
 import TravelAll from 'app/modules/travel/showAll/showAll';
 import Entities from 'app/entities';
 import PrivateRoute from 'app/shared/auth/private-route';
@@ -36,6 +37,7 @@ const Routes = () => (
       <ErrorBoundaryRoute path="/reset/finish/:key?" component={PasswordResetFinish} />
       <ErrorBoundaryRoute path="/reset/finish/:key?" component={PasswordResetFinish} />
       <ErrorBoundaryRoute path="/index" component={Index} />
+      <ErrorBoundaryRoute path="/profile" component={Profile} />
       <ErrorBoundaryRoute path="/travel/showAll" component={TravelAll} />
       <PrivateRoute path="/home" component={Home} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
       <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />

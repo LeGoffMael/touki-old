@@ -9,7 +9,7 @@ import { getSession } from 'app/shared/reducers/authentication';
 import { saveAccountSettings, reset } from './settings.reducer';
 
 import { IUserExtra } from 'app/shared/model/user-extra.model';
-import { getEntity, updateEntity } from '../../../entities/user-extra/user-extra.reducer';
+import { getEntity, updateEntity } from 'app/entities/user-extra/user-extra.reducer';
 import { RouteComponentProps } from 'react-router';
 import { mapIdList } from 'app/shared/util/entity-utils';
 
