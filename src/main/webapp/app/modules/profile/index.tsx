@@ -8,8 +8,8 @@ import Profile from './profile';
 const Routes = ({ match }) => (
   <>
     <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={Profile} />
-      <ErrorBoundaryRoute path={match.url} component={Profile} />
+      <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={Profile} key="userProfile" />
+      <ErrorBoundaryRoute path={match.url} component={Profile} key="myProfile" />
     </Switch>
   </>
 );

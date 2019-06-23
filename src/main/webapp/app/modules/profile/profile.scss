@@ -1,3 +1,6 @@
+$touki-main-color: #1da1f2;
+$touki-dlt-color: #cc494a;
+
 .touki-profile {
   padding: 2%;
   margin-top: 2%;
@@ -13,6 +16,7 @@
     width: 80%;
     height: 100%;
     max-height: 300px;
+    max-width: 300px;
   }
   .profile-data span {
     display: block;
@@ -21,7 +25,7 @@
     margin-bottom: 5px;
 
     a {
-      color: #1da1f2;
+      color: $touki-main-color;
     }
   }
   .profile-head {
@@ -39,24 +43,53 @@
         font-size: 0.7em;
       }
     }
+    .u-travels {
+      font-size: 1.3em;
+    }
   }
   .profile-head-more {
     margin-top: 20px;
     font-size: 0.8em;
   }
-  .profile-edit-btn {
+
+  .profile-btn {
     margin-top: 10px;
-    border-color: #1da1f2;
-    color: #1da1f2;
+    border-color: $touki-main-color;
+    color: $touki-main-color;
     width: 100%;
     margin-left: 10px;
     margin-right: 10px;
+    border-color: $touki-main-color;
+    color: $touki-main-color;
+
+    &:hover {
+      color: #fff !important;
+      border-color: $touki-main-color;
+      background-color: $touki-main-color;
+    }
+
+    &.profile-dlt-btn {
+      span:nth-child(1) {
+        display: inline;
+      }
+      span:nth-child(2) {
+        display: none;
+      }
+
+      &:hover {
+        border-color: $touki-dlt-color;
+        background-color: $touki-dlt-color;
+
+        span:nth-child(1) {
+          display: none;
+        }
+        span:nth-child(2) {
+          display: inline;
+        }
+      }
+    }
   }
-  .profile-edit-btn:hover {
-    border-color: #1da1f2;
-    background-color: #1da1f2;
-    color: #fff;
-  }
+
   .profile-head .nav-tabs {
     margin-bottom: 5%;
   }
@@ -74,18 +107,15 @@
     border: none;
   }
   .nav-link:hover {
-    color: #1da1f2 !important;
+    color: $touki-main-color !important;
   }
   .nav-link.active {
-    color: #1da1f2;
-    border-bottom: 2px solid #1da1f2;
+    color: $touki-main-color;
+    border-bottom: 2px solid $touki-main-color;
   }
-  .profile-tab label {
-    font-weight: 600;
-  }
-  .profile-tab p {
-    font-weight: 600;
-    color: #0062cc;
+
+  .profile-relation {
+    color: $touki-main-color !important;
   }
 
   /* Hide text in tab header when < 576px */
