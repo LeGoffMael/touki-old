@@ -37,6 +37,7 @@ export class Travel extends React.Component<ITravelProps> {
                       title={travel.title}
                       description={travel.description}
                       id={travel.id}
+                      users={travel.users}
                     />
                   ))}
                 </Row>

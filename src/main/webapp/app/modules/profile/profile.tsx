@@ -12,6 +12,7 @@ import { getEntity } from 'app/entities/user-extra/user-extra.reducer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faAt, faPlane, faUserFriends, faUsers, faCertificate, faPercent } from '@fortawesome/free-solid-svg-icons';
 import UserCardItem from 'app/shared/layout/userCard/user-card-item';
+import TravelCardItem from 'app/shared/layout/travelCard/travel-card-item';
 
 export interface IProfileProp extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -174,20 +175,26 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
               <Row>
                 <TabContent activeTab={activeTab}>
                   <TabPane tabId="1">
-                    <Row>
-                      <Col sm="12">
-                        <h1>Travels gallery</h1>
-                        <ul>
-                          {userExtraEntity.travels.map((travel, i) => (
-                            <li key={i}>
-                              <Link className="profile-relation" to={`/entity/travel/${travel.id}`}>
-                                {travel.title}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </Col>
-                    </Row>
+                    {userExtraEntity.travels && userExtraEntity.travels.length > 0 ? (
+                      <section>
+                        <div className="container">
+                          <Row className="card-deck">
+                            {userExtraEntity.travels.map((travel, i) => (
+                              <TravelCardItem
+                                key={i}
+                                id={travel.id}
+                                image={travel.steps !== null && travel.steps[0].photos[0].link}
+                                title={travel.title}
+                                description={travel.description}
+                                users={travel.users}
+                              />
+                            ))}
+                          </Row>
+                        </div>
+                      </section>
+                    ) : (
+                      <Row className="alert alert-warning">No travel found</Row>
+                    )}
                   </TabPane>
                   <TabPane tabId="2">
                     {userExtraEntity.followings && userExtraEntity.followings.length > 0 ? (

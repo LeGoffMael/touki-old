@@ -11,24 +11,21 @@ export interface ITravelCardItem {
   title: string;
   description: string;
   id: number;
+  users: any;
 }
 
 export default class TravelCardItem extends React.Component<ITravelCardItem> {
   render() {
-    const { image, title, description, id } = this.props;
+    const { image, title, description, id, users } = this.props;
 
     return (
       <Col md="4">
         <a className="travel-card-link" href={'/entity/travel/' + id}>
           <div className="travel-card">
-            <img className="card-image" src={image}/>
+            <img className="card-image" src={image !== false ? image : 'content/images/default-photo.png'} />
             <div className="card-body">
-              <h4 className="card-title">
-                {title}
-              </h4>
-              <p className="card-text">
-                {description}
-              </p>
+              <h4 className="card-title">{title}</h4>
+              <p className="card-text">{description}</p>
             </div>
           </div>
         </a>
