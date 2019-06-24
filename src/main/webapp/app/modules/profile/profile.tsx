@@ -10,7 +10,8 @@ import { getSession } from 'app/shared/reducers/authentication';
 import { getEntity } from 'app/entities/user-extra/user-extra.reducer';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faAt, faPlane, faUserFriends, faCertificate, faPercent } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faAt, faPlane, faUserFriends, faUsers, faCertificate, faPercent } from '@fortawesome/free-solid-svg-icons';
+import UserCardItem from 'app/shared/layout/userCard/user-card-item';
 
 export interface IProfileProp extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -20,6 +21,7 @@ export interface IProfileState {
   isFollowing: boolean;
   nbTravels: number;
   nbFollowing: number;
+  nbFollowers: number;
   nbBadges: number;
 }
 
@@ -30,14 +32,31 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
     isFollowing: false,
     nbTravels: 0,
     nbFollowing: 0,
+    nbFollowers: 0,
     nbBadges: 0
   };
 
   componentDidMount() {
     this.props.getSession();
+    this.fetchUserData();
+  }
 
-    if (this.props.account.id !== undefined && this.state.himSelf) {
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.fetchUserData();
+    }
+  }
+
+  /**
+   * Retrieve the correct user data depending of the page (connected or other)
+   */
+  fetchUserData() {
+    // If the user to display is the connected user
+    if (this.props.account.id !== undefined && (this.state.himSelf || this.props.account.id === this.props.match.params.id)) {
       this.props.getEntity(this.props.account.id);
+      this.state.himSelf = true;
+      // Else display the user id provide in the path
     } else if (!this.state.himSelf) {
       // @ts-ignore
       this.props.getEntity(this.props.match.params.id).then(response => {
@@ -66,10 +85,13 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
     // Count number of elements
     this.state.nbTravels = this.props.userExtraEntity.travels == null ? 0 : this.props.userExtraEntity.travels.length;
     this.state.nbFollowing = this.props.userExtraEntity.followings == null ? 0 : this.props.userExtraEntity.followings.length;
+    this.state.nbFollowers = this.props.userExtraEntity.followers == null ? 0 : this.props.userExtraEntity.followers.length;
     this.state.nbBadges = this.props.userExtraEntity.badges == null ? 0 : this.props.userExtraEntity.badges.length;
 
     const { userExtraEntity } = this.props;
-    const { himSelf, isFollowing, activeTab, nbTravels, nbFollowing, nbBadges } = this.state;
+    const { himSelf, isFollowing, activeTab, nbTravels, nbFollowing, nbFollowers, nbBadges } = this.state;
+
+    console.log(userExtraEntity);
 
     return (
       <div>
@@ -121,29 +143,31 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
                 <Nav tabs className="navfa-tabs">
                   <NavItem className="nav-items">
                     {/* tslint:disable-next-line:jsx-no-lambda */}
-                    <NavLink className={`${activeTab === '1' ? 'nav-link active' : 'nav-link'}`} onClick={() => this.toggleTab('1')}>
+                    <NavLink className={`nav-link ${activeTab === '1' && ' active'}`} onClick={() => this.toggleTab('1')}>
                       <FontAwesomeIcon icon={faPlane} /> Travels ({nbTravels})
                     </NavLink>
                   </NavItem>
                   <NavItem className="nav-items">
                     {/* tslint:disable-next-line:jsx-no-lambda */}
-                    <NavLink className={`${activeTab === '2' ? 'nav-link active' : 'nav-link'}`} onClick={() => this.toggleTab('2')}>
+                    <NavLink className={`nav-link ${activeTab === '2' && ' active'}`} onClick={() => this.toggleTab('2')}>
                       <FontAwesomeIcon icon={faUserFriends} /> Following ({nbFollowing})
                     </NavLink>
                   </NavItem>
                   <NavItem className="nav-items">
                     {/* tslint:disable-next-line:jsx-no-lambda */}
-                    <NavLink className={`${activeTab === '3' ? 'nav-link active' : 'nav-link'}`} onClick={() => this.toggleTab('3')}>
+                    <NavLink className={`nav-link ${activeTab === '3' && ' active'}`} onClick={() => this.toggleTab('3')}>
+                      <FontAwesomeIcon icon={faUsers} /> Followers ({nbFollowers})
+                    </NavLink>
+                  </NavItem>
+                  <NavItem className="nav-items">
+                    {/* tslint:disable-next-line:jsx-no-lambda */}
+                    <NavLink className={`nav-link ${activeTab === '4' && ' active'}`} onClick={() => this.toggleTab('4')}>
                       <FontAwesomeIcon icon={faCertificate} /> Badges ({nbBadges})
                     </NavLink>
                   </NavItem>
                   <NavItem className="nav-items">
                     {/* tslint:disable-next-line:jsx-no-lambda */}
-                    <NavLink
-                      disabled
-                      className={`${activeTab === '4' ? 'nav-link active' : 'nav-link'}`}
-                      onClick={() => this.toggleTab('4')}
-                    >
+                    <NavLink disabled className={`nav-link ${activeTab === '5' && ' active'}`} onClick={() => this.toggleTab('5')}>
                       <FontAwesomeIcon icon={faPercent} /> Statistics
                     </NavLink>
                   </NavItem>
@@ -168,22 +192,52 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
                     </Row>
                   </TabPane>
                   <TabPane tabId="2">
-                    <Row>
-                      <Col sm="12">
-                        <h1>Following</h1>
-                        <ul>
-                          {userExtraEntity.followings.map((friend, i) => (
-                            <li key={i}>
-                              <Link className="profile-relation" to={`/profile/${friend.user.id}`}>
-                                {friend.user.login}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </Col>
-                    </Row>
+                    {userExtraEntity.followings && userExtraEntity.followings.length > 0 ? (
+                      <section>
+                        <div className="container">
+                          <Row className="card-deck">
+                            {userExtraEntity.followings.map((following, i) => (
+                              <UserCardItem
+                                key={i}
+                                id={following.user.id}
+                                login={following.user.login}
+                                firstName={following.user.firstName}
+                                lastName={following.user.lastName}
+                                imageUrl={following.user.imageUrl}
+                                description={following.description}
+                              />
+                            ))}
+                          </Row>
+                        </div>
+                      </section>
+                    ) : (
+                      <Row className="alert alert-warning">No following found</Row>
+                    )}
                   </TabPane>
                   <TabPane tabId="3">
+                    {userExtraEntity.followers && userExtraEntity.followers.length > 0 ? (
+                      <section>
+                        <div className="container">
+                          <Row className="card-deck">
+                            {userExtraEntity.followers.map((follower, i) => (
+                              <UserCardItem
+                                key={i}
+                                id={follower.user.id}
+                                login={follower.user.login}
+                                firstName={follower.user.firstName}
+                                lastName={follower.user.lastName}
+                                imageUrl={follower.user.imageUrl}
+                                description={follower.description}
+                              />
+                            ))}
+                          </Row>
+                        </div>
+                      </section>
+                    ) : (
+                      <Row className="alert alert-warning">No follower found</Row>
+                    )}
+                  </TabPane>
+                  <TabPane tabId="4">
                     <Row>
                       <Col sm="12">
                         <h1>Badges</h1>
@@ -195,7 +249,7 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
                       </Col>
                     </Row>
                   </TabPane>
-                  <TabPane tabId="4">
+                  <TabPane tabId="5">
                     <Row>
                       <Col sm="12">
                         <h1>Statistics are coming soon</h1>

@@ -100,11 +100,12 @@ $touki-dlt-color: #cc494a;
     width: 100%;
   }
   .nav-item {
-    width: 25%;
+    width: 20%;
   }
   .nav-link {
     text-align: center;
     border: none;
+    height: 100%;
   }
   .nav-link:hover {
     color: $touki-main-color !important;
@@ -114,8 +115,9 @@ $touki-dlt-color: #cc494a;
     border-bottom: 2px solid $touki-main-color;
   }
 
-  .profile-relation {
-    color: $touki-main-color !important;
+  .tab-content {
+    width: 100%;
+    margin-top: 5px;
   }
 
   /* Hide text in tab header when < 576px */

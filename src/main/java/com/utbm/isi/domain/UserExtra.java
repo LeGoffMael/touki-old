@@ -1,6 +1,8 @@
 package com.utbm.isi.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 
@@ -44,6 +46,8 @@ public class UserExtra implements Serializable {
     @JoinTable(name = "user_extra_followings",
                joinColumns = @JoinColumn(name = "user_extra_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "followings_id", referencedColumnName = "id"))
+   @JsonIgnoreProperties(ignoreUnknown = true,
+                             value = {"followers", "followings"})
     private Set<UserExtra> followings = new HashSet<>();
 
     @OneToMany(mappedBy = "owner")
@@ -57,7 +61,8 @@ public class UserExtra implements Serializable {
     private Set<Travel> travels = new HashSet<>();
 
     @ManyToMany(mappedBy = "followings", fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"followings"})
+    @JsonIgnoreProperties(ignoreUnknown = true,
+                          value = {"followers", "followings"})
     private Set<UserExtra> followers = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

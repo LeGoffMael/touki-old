@@ -1,0 +1,15 @@
+.user-card {
+  border-radius: 0.25rem !important;
+  border: 1px solid rgba(0, 0, 0, 0.125) !important;
+  display: flex !important;
+  word-wrap: break-word !important;
+
+  &::before,
+  &::after {
+    box-sizing: border-box !important;
+  }
+
+  .card-body {
+    padding: 0.25em;
+  }
+}
