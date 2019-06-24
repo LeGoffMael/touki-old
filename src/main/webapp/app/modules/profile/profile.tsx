@@ -65,6 +65,7 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
           for (const user of response.value.data.followers) {
             if (user.id === this.props.account.id) {
               this.state.isFollowing = true;
+              this.forceUpdate();
               break;
             }
           }
@@ -90,9 +91,6 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
 
     const { userExtraEntity } = this.props;
     const { himSelf, isFollowing, activeTab, nbTravels, nbFollowing, nbFollowers, nbBadges } = this.state;
-
-    console.log(userExtraEntity);
-
     return (
       <div>
         {userExtraEntity.user !== undefined ? (

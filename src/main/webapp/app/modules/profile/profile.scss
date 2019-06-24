@@ -69,6 +69,10 @@ $touki-dlt-color: #cc494a;
     }
 
     &.profile-dlt-btn {
+      border-color: $touki-main-color;
+      background-color: $touki-main-color;
+      color: #fff;
+
       span:nth-child(1) {
         display: inline;
       }
