@@ -10,6 +10,7 @@ import LoadingBar from 'react-redux-loading-bar';
 
 import { Home, Brand } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu } from '../menus';
+import SearchInput from 'app/shared/layout/search/search';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -53,6 +54,7 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
         <Navbar dark expand="sm" fixed="top" className="jh-navbar">
           <NavbarToggler aria-label="Menu" onClick={this.toggleMenu} />
           <Brand />
+          <SearchInput />
           <Collapse isOpen={this.state.menuOpen} navbar>
             <Nav id="header-tabs" className="ml-auto" navbar>
               {isAuthenticated && <Home />}

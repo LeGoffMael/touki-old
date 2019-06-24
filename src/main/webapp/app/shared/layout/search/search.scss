@@ -1,0 +1,62 @@
+$touki-main-color: #1da1f2;
+
+.search-group {
+  display: block;
+}
+
+.result-bucket {
+  margin-bottom: 0;
+}
+
+.instant-results {
+  background: #fff;
+  width: 75%;
+  color: gray;
+  position: absolute;
+  top: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.175);
+  display: none;
+  z-index: 9;
+  max-height: 300px;
+  overflow-x: auto;
+  margin: 0;
+
+  &.active {
+    display: block !important;
+  }
+
+  span {
+    color: $touki-main-color;
+    font-size: 20px;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+
+  .result-entry:hover {
+    background-color: $touki-main-color;
+    .media-heading {
+      color: #fff !important;
+    }
+  }
+
+  .result-link .media-heading {
+    font-size: 15px;
+    color: grey;
+    height: 100%;
+    margin-left: 5px;
+    padding-top: 10px;
+  }
+  .result-link:hover,
+  .result-link:hover .media-heading,
+  .result-link:hover .media-body {
+    text-decoration: none;
+  }
+  .result-link .media-object {
+    width: 50px;
+    padding: 3px;
+    border-radius: 3px;
+  }
+}

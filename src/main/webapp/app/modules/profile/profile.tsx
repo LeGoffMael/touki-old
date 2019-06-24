@@ -109,7 +109,8 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
                     <FontAwesomeIcon icon={faAt} />
                     {userExtraEntity.user.login}
                   </span>
-                  <span className="u-travels">{nbTravels} travels</span>
+                  <span className="u-nb-data">{nbTravels} travels</span>
+                  <span className="u-nb-data">{nbBadges} badges</span>
                 </Col>
               </Row>
               <Row>
