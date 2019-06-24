@@ -13,12 +13,16 @@ export interface ISearchSuggestion {
 }
 
 export default class SearchSuggestion extends React.Component<ISearchSuggestion> {
+  linkSuggestion = event => {
+    document.location.href = this.props.link;
+  };
+
   render() {
     const { key, id, text, link, image, icon } = this.props;
 
     return (
       <li className="result-entry" data-suggestion={`Target ${key}`} data-position={key} data-type="type" data-analytics-type="merchant">
-        <a href={link} className="result-link">
+        <a href={link} className="result-link" onMouseDown={this.linkSuggestion}>
           <div className="media">
             <div className="media-left">
               <img src={image} className="media-object" />

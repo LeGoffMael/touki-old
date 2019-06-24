@@ -11,11 +11,14 @@ export interface ISearchSuggestion {
 }
 
 export default class SearchSuggestions extends React.Component<ISearchSuggestion> {
+  setHide = event => {
+    this.setState({ visibilitySuggestion: false });
+  };
+
   render() {
     const { users, travels, visibility } = this.props;
-
     return (
-      <Row className={`instant-results ${visibility && ' active'}`}>
+      <Row onBlur={this.setHide} className={`instant-results ${visibility && ' active'}`}>
         <ul className="list-unstyled result-bucket">
           <div className="container">
             {users && users.length > 0 && (

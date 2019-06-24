@@ -14,14 +14,14 @@ import SearchSuggestions from 'app/shared/layout/search/search-suggestions';
 
 export interface ISearchProp extends StateProps, DispatchProps {}
 
-export interface IIndexState {
+export interface ISearchState {
   visibilitySuggestion: boolean;
   usersFilter: any;
   travelsFilter: any;
 }
 
-class SearchInput extends React.Component<ISearchProp> {
-  state: IIndexState = {
+class SearchInput extends React.Component<ISearchProp, ISearchState> {
+  state: ISearchState = {
     visibilitySuggestion: false,
     usersFilter: null,
     travelsFilter: null
@@ -61,8 +61,8 @@ class SearchInput extends React.Component<ISearchProp> {
             placeholder="(In coming) Search user or travel"
             aria-label="Search"
           />
+          <SearchSuggestions users={userExtraList} travels={travelList} visibility={visibilitySuggestion} />
         </div>
-        <SearchSuggestions users={userExtraList} travels={travelList} visibility={visibilitySuggestion} />
       </Col>
     );
   }
