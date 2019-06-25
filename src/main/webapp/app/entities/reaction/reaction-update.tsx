@@ -11,7 +11,7 @@ import { IRootState } from 'app/shared/reducers';
 import { IUserExtra } from 'app/shared/model/user-extra.model';
 import { getEntities as getUserExtras } from 'app/entities/user-extra/user-extra.reducer';
 import { ITravel } from 'app/shared/model/travel.model';
-import { getEntities as getTravels } from 'app/entities/travel/travel.reducer';
+import { getEntities as getTravels } from 'app/modules/travel/travel.reducer';
 import { IPhoto } from 'app/shared/model/photo.model';
 import { getEntities as getPhotos } from 'app/entities/photo/photo.reducer';
 import { IComment } from 'app/shared/model/comment.model';

@@ -13,7 +13,7 @@ import reducer, {
   getEntity,
   updateEntity,
   reset
-} from 'app/entities/travel/travel.reducer';
+} from 'app/modules/travel/travel.reducer';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { ITravel, defaultValue } from 'app/shared/model/travel.model';
 

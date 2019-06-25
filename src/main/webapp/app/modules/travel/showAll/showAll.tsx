@@ -10,7 +10,7 @@ import { ICrudGetAllAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntities } from 'app/entities/travel/travel.reducer';
+import { getEntities } from 'app/modules/travel/travel.reducer';
 import { ITravel } from 'app/shared/model/travel.model';
 // tslint:disable-next-line:no-unused-variable
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';

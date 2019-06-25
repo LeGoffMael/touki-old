@@ -9,7 +9,7 @@ const accountMenuItemsAuthenticated = (
     <MenuItem icon="user" to="/profile">
       Profile
     </MenuItem>
-    <MenuItem icon="plus" to="/entity/travel/new">
+    <MenuItem icon="plus" to="/travel/new">
       New travel
     </MenuItem>
     <DropdownItem divider />

@@ -14,7 +14,7 @@ import { IBadge } from 'app/shared/model/badge.model';
 import { getEntities as getBadges } from 'app/entities/badge/badge.reducer';
 import { getEntities as getUserExtras } from 'app/entities/user-extra/user-extra.reducer';
 import { ITravel } from 'app/shared/model/travel.model';
-import { getEntities as getTravels } from 'app/entities/travel/travel.reducer';
+import { getEntities as getTravels } from 'app/modules/travel/travel.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './user-extra.reducer';
 import { IUserExtra } from 'app/shared/model/user-extra.model';
 // tslint:disable-next-line:no-unused-variable

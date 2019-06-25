@@ -14,7 +14,7 @@ import passwordReset, { PasswordResetState } from 'app/modules/account/password-
 // prettier-ignore
 import travel, {
   TravelState
-} from 'app/entities/travel/travel.reducer';
+} from 'app/modules/travel/travel.reducer';
 // prettier-ignore
 import userExtra, {
   UserExtraState

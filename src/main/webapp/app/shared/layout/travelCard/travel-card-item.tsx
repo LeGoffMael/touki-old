@@ -18,9 +18,10 @@ export default class TravelCardItem extends React.Component<ITravelCardItem> {
   render() {
     const { image, title, description, id, users } = this.props;
 
+    // @ts-ignore
     return (
       <Col md="4">
-        <a className="travel-card-link" href={'/entity/travel/' + id}>
+        <a className="travel-card-link" href={'travel/' + id}>
           <div className="travel-card">
             <img className="card-image" src={image !== false ? image : 'content/images/default-photo.png'} />
             <div className="card-body">

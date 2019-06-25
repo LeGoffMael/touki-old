@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { ITravel } from 'app/shared/model/travel.model';
 import { IRootState } from 'app/shared/reducers';
-import { getEntity, deleteEntity } from './travel.reducer';
+import { getEntity, deleteEntity } from '../../modules/travel/travel.reducer';
 
 export interface ITravelDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 

@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
 import { ITravel } from 'app/shared/model/travel.model';
-import { getEntities as getTravels } from 'app/entities/travel/travel.reducer';
+import { getEntities as getTravels } from 'app/modules/travel/travel.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './check-list-item.reducer';
 import { ICheckListItem } from 'app/shared/model/check-list-item.model';
 // tslint:disable-next-line:no-unused-variable

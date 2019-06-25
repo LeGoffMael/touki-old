@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
 import { ITravel } from 'app/shared/model/travel.model';
-import { getEntities as getTravels } from 'app/entities/travel/travel.reducer';
+import { getEntities as getTravels } from 'app/modules/travel/travel.reducer';
 import { ICity } from 'app/shared/model/city.model';
 import { getEntities as getCities } from 'app/entities/city/city.reducer';
 import { IPlace } from 'app/shared/model/place.model';

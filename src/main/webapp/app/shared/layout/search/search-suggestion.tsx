@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 export interface ISearchSuggestion {
-  key: number;
   id: string;
   text: string;
   link: string;
@@ -18,10 +17,10 @@ export default class SearchSuggestion extends React.Component<ISearchSuggestion>
   };
 
   render() {
-    const { key, id, text, link, image, icon } = this.props;
+    const { id, text, link, image, icon } = this.props;
 
     return (
-      <li className="result-entry" data-suggestion={`Target ${key}`} data-position={key} data-type="type" data-analytics-type="merchant">
+      <li className="result-entry">
         <a href={link} className="result-link" onMouseDown={this.linkSuggestion}>
           <div className="media">
             <div className="media-left">

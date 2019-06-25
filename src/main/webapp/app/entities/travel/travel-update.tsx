@@ -10,7 +10,7 @@ import { IRootState } from 'app/shared/reducers';
 
 import { IUserExtra } from 'app/shared/model/user-extra.model';
 import { getEntities as getUserExtras } from 'app/entities/user-extra/user-extra.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './travel.reducer';
+import { getEntity, updateEntity, createEntity, reset } from '../../modules/travel/travel.reducer';
 import { ITravel } from 'app/shared/model/travel.model';
 // tslint:disable-next-line:no-unused-variable
 import { convertDateTimeFromServer, convertDateTimeToServer } from 'app/shared/util/date-utils';

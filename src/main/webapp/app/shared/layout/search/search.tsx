@@ -8,7 +8,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntities as getAllUsers } from 'app/entities/user-extra/user-extra.reducer';
-import { getEntities as getAllTravels } from 'app/entities/travel/travel.reducer';
+import { getEntities as getAllTravels } from 'app/modules/travel/travel.reducer';
 
 import SearchSuggestions from 'app/shared/layout/search/search-suggestions';
 
@@ -47,7 +47,7 @@ class SearchInput extends React.Component<ISearchProp, ISearchState> {
 
     return (
       <Col md="4">
-        <div className="input-group md-form form-sm form-1 pl-0">
+        <div className="input-group md-form form-sm">
           <div className="input-group-prepend">
             <span className="input-group-text" id="basic-text1">
               <FontAwesomeIcon icon={faSearch} />
@@ -56,7 +56,7 @@ class SearchInput extends React.Component<ISearchProp, ISearchState> {
           <input
             onFocus={this.setVisible}
             onBlur={this.setHide}
-            className="form-control my-0 py-1"
+            className="form-control"
             type="text"
             placeholder="(In coming) Search user or travel"
             aria-label="Search"
