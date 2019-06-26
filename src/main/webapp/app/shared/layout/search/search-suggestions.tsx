@@ -44,8 +44,14 @@ export default class SearchSuggestions extends React.Component<ISearchSuggestion
                     key={i}
                     id={travel.id}
                     text={travel.title}
-                    link={`/entity/travel/${travel.id}`}
-                    image={travel.steps !== null ? travel.steps[0].photos[0].link : 'content/images/default-photo.png'}
+                    link={`/travel/${travel.id}`}
+                    image={
+                      travel.steps[0] !== undefined
+                        ? travel.steps[0].photos[0] !== undefined
+                          ? travel.steps[0].photos[0].link
+                          : 'content/images/default-photo.png'
+                        : 'content/images/default-photo.png'
+                    }
                     icon={faPlane}
                   />
                 ))}

@@ -184,7 +184,13 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
                               <TravelCardItem
                                 key={i}
                                 id={travel.id}
-                                image={travel.steps !== null && travel.steps[0].photos[0].link}
+                                image={
+                                  travel.steps[0] !== undefined
+                                    ? travel.steps[0].photos[0] !== undefined
+                                      ? travel.steps[0].photos[0].link
+                                      : 'content/images/default-photo.png'
+                                    : 'content/images/default-photo.png'
+                                }
                                 title={travel.title}
                                 description={travel.description}
                                 users={travel.users}

@@ -11,6 +11,8 @@ import java.util.Set;
 
 import com.utbm.isi.domain.enumeration.TravelStatus;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * A Travel.
  */
@@ -63,7 +65,8 @@ public class Travel implements Serializable {
                inverseJoinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"))
     private Set<UserExtra> users = new HashSet<>();
 
-    @OneToMany(mappedBy = "travel")
+    @OneToMany(mappedBy = "travel", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"steps", "travel"})
     private Set<Step> steps = new HashSet<>();
 
     @OneToMany(mappedBy = "travel")

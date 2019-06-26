@@ -30,6 +30,7 @@ exports[`Header Renders a Header component in dev profile with LoadingBar, Navba
       type="button"
     />
     <Component />
+    <Connect(SearchInput) />
     <Collapse
       appear={false}
       enter={true}
@@ -92,6 +93,7 @@ exports[`Header Renders a Header component in prod profile with LoadingBar, Navb
       type="button"
     />
     <Component />
+    <Connect(SearchInput) />
     <Collapse
       appear={false}
       enter={true}

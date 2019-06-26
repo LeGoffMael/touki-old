@@ -58,8 +58,8 @@ public class Step implements Serializable {
                inverseJoinColumns = @JoinColumn(name = "places_id", referencedColumnName = "id"))
     private Set<Place> places = new HashSet<>();
 
-    @ManyToMany(mappedBy = "steps")
-    @JsonIgnore
+    @ManyToMany(mappedBy = "steps", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"steps"})
     private Set<Photo> photos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

@@ -25,7 +25,12 @@ export interface ITravelUpdateState {
   idsusers: any[];
 }
 
-const date = new Date();
+const compareStartEndDate = (value, ctx) => {
+  if (ctx.startDate > ctx.endDate) {
+    return 'End date cannot be before start date.';
+  }
+  return true;
+};
 
 export class TravelUpdate extends React.Component<ITravelUpdateProps, ITravelUpdateState> {
   constructor(props) {
@@ -49,6 +54,11 @@ export class TravelUpdate extends React.Component<ITravelUpdateProps, ITravelUpd
   }
 
   saveEntity = (event, errors, values) => {
+    /*
+    if (values.startDate !== '' && values.endDate !== '' && values.startDate > values.endDate) {
+      errors.push('The start date cannot be after the end date');
+    }
+    */
     // Current time
     const now = moment().unix();
     if (this.state.isNew) {
@@ -182,7 +192,13 @@ export class TravelUpdate extends React.Component<ITravelUpdateProps, ITravelUpd
                       <Label id="endDateLabel" for="travel-endDate">
                         End Date
                       </Label>
-                      <AvField id="travel-endDate" type="date" className="form-control" name="endDate" />
+                      <AvField
+                        id="travel-endDate"
+                        type="date"
+                        className="form-control"
+                        name="endDate"
+                        validate={{ errorMessage: compareStartEndDate }}
+                      />
                     </AvGroup>
                   </Col>
                 </Row>
