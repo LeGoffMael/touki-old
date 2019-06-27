@@ -267,7 +267,7 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
                                 }
                                 title={travel.title}
                                 description={travel.description}
-                                fromProfile
+                                fromProfile={true}
                               />
                             ))}
                           </Row>

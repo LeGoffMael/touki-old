@@ -1,7 +1,9 @@
+import './travel-showOne.scss';
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col, Label, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Table, Row, Col, Label, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
 import { ICrudGetAction, TextFormat } from 'react-jhipster';
@@ -163,19 +165,27 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
 
     return (
       <Row>
-        <Col sm="5">
+        <Col sm="4">
           <div className="sticky-box">
             <div id="travel-informations" className="col-sm-4">
               <h1 className="travel-title">{travelEntity.title}</h1>
-              <p className="travel-status">{travelEntity.status}</p>
-              <p>From: {travelEntity.startDate}</p>
-              <p>To: {travelEntity.endDate}</p>
+              <p className="travel-status status-current">{travelEntity.status}</p>
+              <p>From:</p>
+              <p className="travel-date">{travelEntity.startDate}</p>
+              <p>To:</p>
+              <p className="travel-date">{travelEntity.endDate}</p>
               <p className="travel-description">{travelEntity.description}</p>
             </div>
             <div id="travel-users" className="col-sm-4">
-              <p>(-)Pierre</p>
-              <p>Paul</p>
-              <p>Jacques</p>
+              <Table borderless>
+                {travelEntity.users !== undefined &&
+                  travelEntity.users.map((userList, i) => (
+                    <tr>
+                      <td>{userList.user.login}</td>
+                      <td>(-)</td>
+                    </tr>
+                  ))}
+              </Table>
             </div>
             <div className="col-sm-4">
               <Button tag={Link} to={`/travel/${travelEntity.id}/edit`} replace outline color="primary">
@@ -197,7 +207,7 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
           </div>
         </Col>
 
-        <Col sm="7">
+        <Col sm="8">
           <h1 className="step-list-title">STEPS</h1>
           <div id="step-list" className="step-list-container">
             {travelEntity.steps !== undefined &&

@@ -1,7 +1,17 @@
-#travel-informations {
+#travel-informations,
+#travel-users {
   border-radius: 0.25rem !important;
   border: 1px solid rgba(0, 0, 0, 0.125) !important;
   padding: 10px;
+}
+
+#travel-users {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#travel-users table {
+  margin-bottom: 0;
 }
 
 #travel-informations p {
@@ -14,12 +24,30 @@
 }
 
 .travel-description {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  text-align: justify;
 }
 
 .travel-status {
+  display: inline-block;
+  float: right;
   border-radius: 0.35rem;
+  padding: 2px 10px;
+}
+.travel-status.status-planned {
+  background-color: rgba(0, 255, 0, 0.9);
+}
+.travel-status.status-current {
+  background-color: rgba(255, 210, 7, 0.9);
+}
+.travel-status.status-done {
+  background-color: rgba(0, 0, 255, 0.9);
+}
+
+.travel-date {
+  margin-left: 10px;
+  font-style: italic;
 }
 
 .sticky-box {
@@ -29,7 +57,27 @@
 @media only screen and (max-width: 576px) {
   .sticky-box {
     position: relative;
+    margin-top: 30px;
+    margin-bottom: 20px;
   }
+}
+
+#step-list::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 18px;
+  height: 100%;
+  width: 4px;
+  background: #d7e4ed;
+}
+
+.step-list-title {
+  margin: 3%;
+  font-size: 30px;
+  font-weight: 500;
+  color: #669999;
+  text-align: center;
 }
 
 #step-list {
@@ -49,16 +97,6 @@
   }
 }
 
-#step-list::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 18px;
-  height: 100%;
-  width: 4px;
-  background: #d7e4ed;
-}
-
 @media only screen and (min-width: 1170px) {
   #step-list {
     margin-top: 3em;
@@ -68,12 +106,4 @@
     left: 50%;
     margin-left: -2px;
   }
-}
-
-.step-list-title {
-  margin: 3%;
-  font-size: 30px;
-  font-weight: 500;
-  color: #669999;
-  text-align: center;
 }
