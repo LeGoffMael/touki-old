@@ -11,12 +11,14 @@ export interface ITravelCardItem {
   title: string;
   description: string;
   id: number;
-  users: any;
+  users?: any;
+  fromProfile: boolean;
 }
 
 export default class TravelCardItem extends React.Component<ITravelCardItem> {
   render() {
-    const { image, title, description, id, users } = this.props;
+    const { image, title, description, id, users, fromProfile } = this.props;
+    console.log(this.props);
     return (
       <Col md="4">
         <a className="travel-card-link" href={'travel/' + id}>
@@ -25,6 +27,7 @@ export default class TravelCardItem extends React.Component<ITravelCardItem> {
             <div className="card-body">
               <h4 className="card-title">{title}</h4>
               <p className="card-text">{description}</p>
+              {!fromProfile && <p className="card-users">sexe</p>}
             </div>
           </div>
         </a>

@@ -5,6 +5,7 @@ import { Button, Row, Col, Label, Modal, ModalHeader, ModalBody, ModalFooter } f
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
 import { ICrudGetAction, TextFormat } from 'react-jhipster';
+import StepCardItem from 'app/shared/layout/stepCard/step-card-item';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity as getTravel, deleteEntity as deleteTravel } from 'app/modules/travel/travel.reducer';
@@ -80,6 +81,7 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
       });
     }
   };
+
   toggleCreateStepModal = event => {
     this.setState({ showCreateStepModal: !this.state.showCreateStepModal });
   };
@@ -99,85 +101,41 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
     const { showDeleteTravelModal, showCreateStepModal, placesList } = this.state;
     return (
       <Row>
-        <Col md="8">
-          <h2>
-            Travel [<b>{travelEntity.id}</b>]
-          </h2>
-          <dl className="jh-entity-details">
-            <dt>
-              <span id="title">Title</span>
-            </dt>
-            <dd>{travelEntity.title}</dd>
-            <dt>
-              <span id="description">Description</span>
-            </dt>
-            <dd>{travelEntity.description}</dd>
-            <dt>
-              <span id="startDate">Start Date</span>
-            </dt>
-            <dd>
-              <TextFormat value={travelEntity.startDate} type="date" format={APP_LOCAL_DATE_FORMAT} />
-            </dd>
-            <dt>
-              <span id="endDate">End Date</span>
-            </dt>
-            <dd>
-              <TextFormat value={travelEntity.endDate} type="date" format={APP_LOCAL_DATE_FORMAT} />
-            </dd>
-            <dt>
-              <span id="status">Status</span>
-            </dt>
-            <dd>{travelEntity.status}</dd>
-            <dt>
-              <span id="precaution">Precaution</span>
-            </dt>
-            <dd>{travelEntity.precaution}</dd>
-            <dt>
-              <span id="createdAt">Created At</span>
-            </dt>
-            <dd>
-              <TextFormat value={travelEntity.createdAt} type="date" format={APP_DATE_FORMAT} />
-            </dd>
-            <dt>
-              <span id="updatedAt">Updated At</span>
-            </dt>
-            <dd>
-              <TextFormat value={travelEntity.updatedAt} type="date" format={APP_DATE_FORMAT} />
-            </dd>
-            <dt>Users</dt>
-            <dd>
-              {travelEntity.users
-                ? travelEntity.users.map((val, i) => (
-                    <span key={val.id}>
-                      <a href={`/profile/${val.id}`}>{val.user.login}</a>
-                      {i === travelEntity.users.length - 1 ? '' : ', '}
-                    </span>
-                  ))
-                : null}
-            </dd>
-            <dt>Steps</dt>
-            <dd>
-              {travelEntity.steps
-                ? travelEntity.steps.map((val, i) => (
-                    <span key={val.id}>
-                      <a href={`/travel/${travelEntity.id}/step/${val.id}`}>{val.title}</a>
-                      {i === travelEntity.steps.length - 1 ? '' : ', '}
-                    </span>
-                  ))
-                : null}
-            </dd>
-          </dl>
-          <Button tag={Link} to={`/travel/${travelEntity.id}/edit`} outline color="primary">
-            <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
-          </Button>
-          &nbsp;
-          <Button onClick={this.toggleDeleteTravelModal} color="danger">
-            <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
-          </Button>
-          &nbsp;
-          <Button onClick={this.toggleCreateStepModal} color="primary">
-            <FontAwesomeIcon icon="plus" /> <span className="d-none d-md-inline">Create new step</span>
-          </Button>
+        <Col sm="5">
+          <div className="sticky-box">
+            <div id="travel-informations" className="col-sm-4">
+              <h1 className="travel-title">{travelEntity.title}</h1>
+              <p className="travel-status">{travelEntity.status}</p>
+              <p>From: {travelEntity.startDate}</p>
+              <p>To: {travelEntity.endDate}</p>
+              <p className="travel-description">{travelEntity.description}</p>
+            </div>
+            <div id="travel-users" className="col-sm-4">
+              <p>(-)Pierre</p>
+              <p>Paul</p>
+              <p>Jacques</p>
+            </div>
+            <div className="col-sm-4">
+              <Button tag={Link} to={`/travel/${travelEntity.id}/edit`} replace outline color="primary">
+                <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+              </Button>
+              &nbsp;
+              <Button onClick={this.toggleDeleteTravelModal} replace color="danger">
+                <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+              </Button>
+              &nbsp;
+              <Button onClick={this.toggleCreateStepModal} replace color="primary">
+                <FontAwesomeIcon icon="plus" /> <span className="d-none d-md-inline">Create new step</span>
+              </Button>
+            </div>
+          </div>
+        </Col>
+
+        <Col sm="7">
+          <h1 className="step-list-title">STEPS</h1>
+          <div id="step-list" className="step-list-container">
+            {travelEntity.steps !== undefined && travelEntity.steps.map((step, i) => <StepCardItem step={step} />)}
+          </div>
         </Col>
 
         <Modal isOpen={showDeleteTravelModal}>
@@ -195,7 +153,7 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
           </ModalFooter>
         </Modal>
 
-        <Modal isOpen={showCreateStepModal} className="modalCreateStep" sm="8">
+        <Modal isOpen={showCreateStepModal} className="modalCreateStep">
           <ModalHeader toggle={this.toggleCreateStepModal}>Create a step to this travel</ModalHeader>
 
           <AvForm onSubmit={this.confirmCreateStep}>

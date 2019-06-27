@@ -74,9 +74,9 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
             }
           }
         }
-        this.setState({ isLoading: false });
       });
     }
+    this.setState({ isLoading: false });
   }
 
   /*
@@ -262,7 +262,7 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
                                 }
                                 title={travel.title}
                                 description={travel.description}
-                                users={travel.users}
+                                fromProfile={true}
                               />
                             ))}
                           </Row>
