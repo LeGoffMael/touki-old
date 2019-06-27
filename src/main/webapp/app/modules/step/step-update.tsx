@@ -7,7 +7,8 @@ import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstr
 import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
-import { getEntities as getCities, getEntity as getCity } from 'app/entities/city/city.reducer';
+import { getEntity as getCity } from 'app/entities/city/city.reducer';
+import { getEntities as getCountries, getEntity as getCountry } from 'app/entities/country/country.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './step.reducer';
 import { IStep } from 'app/shared/model/step.model';
 import moment from 'moment';
@@ -16,7 +17,9 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface IStepUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export interface IStepUpdateState {
-  cityId: string;
+  refresh: boolean;
+  cityId: number;
+  citiesList: any;
   placesList: any;
 }
 
@@ -31,18 +34,28 @@ export class StepUpdate extends React.Component<IStepUpdateProps, IStepUpdateSta
   constructor(props) {
     super(props);
     this.state = {
-      cityId: '0',
+      refresh: true,
+      cityId: null,
+      citiesList: null,
       placesList: null
     };
   }
 
   componentDidMount() {
-    this.props.getEntity(this.props.match.params.id);
-    this.props.getCities();
-
-    if (this.props.stepEntity && this.props.stepEntity.city) {
-      this.setState({ placesList: this.props.stepEntity.city.places });
-    }
+    // @ts-ignore
+    this.props.getEntity(this.props.match.params.id).then(result1 => {
+      if (this.props.stepEntity && this.props.stepEntity.city) {
+        // @ts-ignore
+        this.props.getCountry(this.props.stepEntity.city.country.id).then(result => {
+          this.setState({
+            cityId: this.props.stepEntity.city.id,
+            citiesList: this.props.countryEntity.cities,
+            placesList: this.props.stepEntity.city.places
+          });
+        });
+      }
+    });
+    this.props.getCountries();
   }
 
   /*
@@ -62,23 +75,33 @@ export class StepUpdate extends React.Component<IStepUpdateProps, IStepUpdateSta
       };
 
       this.props.updateEntity(entity);
-      document.location.href = '/travel/' + entity.travel.id + '/step/' + entity.id;
+      document.location.href = '/travel/' + entity.travel.id;
     }
   };
 
+  /*
+   * Change cities possibilities depending on the country selected
+   */
+  filterCities = (event, values) => {
+    // @ts-ignore
+    this.props.getCountry(values).then(result => {
+      this.setState({ refresh: false, citiesList: result.value.data.cities, placesList: null });
+    });
+  };
   /*
    * Change places possibilities depending on the city selected
    */
   filterPlaces = (event, values) => {
     // @ts-ignore
     this.props.getCity(values).then(result => {
-      this.setState({ placesList: result.value.data.places });
+      this.setState({ refresh: false, placesList: result.value.data.places });
     });
   };
 
   render() {
-    const { stepEntity, cityEntities, loading, updating } = this.props;
-    const { placesList } = this.state;
+    const { stepEntity, countryEntities, countryEntity, loading, updating } = this.props;
+    const { placesList, citiesList, cityId, refresh } = this.state;
+
     return (
       <div>
         <Row className="justify-content-center">
@@ -136,11 +159,24 @@ export class StepUpdate extends React.Component<IStepUpdateProps, IStepUpdateSta
                   </Col>
                 </Row>
                 <AvGroup>
+                  <Label>Country</Label>
+                  <AvInput id="country" type="select" className="form-control" name="country.id" onChange={this.filterCities}>
+                    <option value="" key={refresh ? countryEntity.id : '0'} />
+                    {countryEntities
+                      ? countryEntities.map(otherEntity => (
+                          <option value={otherEntity.id} key={otherEntity.id}>
+                            {otherEntity.name}
+                          </option>
+                        ))
+                      : null}
+                  </AvInput>
+                </AvGroup>
+                <AvGroup>
                   <Label for="step-city">City</Label>
                   <AvInput id="step-city" type="select" className="form-control" name="city.id" onChange={this.filterPlaces}>
-                    <option value="" key="0" />
-                    {cityEntities
-                      ? cityEntities.map(otherEntity => (
+                    <option value="" key={refresh ? cityId : '0'} />
+                    {citiesList
+                      ? citiesList.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
                             {otherEntity.name}
                           </option>
@@ -168,13 +204,7 @@ export class StepUpdate extends React.Component<IStepUpdateProps, IStepUpdateSta
                       : null}
                   </AvInput>
                 </AvGroup>
-                <Button
-                  tag={Link}
-                  id="cancel-save"
-                  to={`/travel/${stepEntity.travel && stepEntity.travel.id}/step/${stepEntity.id}`}
-                  replace
-                  color="info"
-                >
+                <Button tag={Link} id="cancel-save" to={`/travel/${stepEntity.travel && stepEntity.travel.id}`} replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                   &nbsp;
                   <span className="d-none d-md-inline">Back</span>
@@ -194,7 +224,8 @@ export class StepUpdate extends React.Component<IStepUpdateProps, IStepUpdateSta
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
-  cityEntities: storeState.city.entities,
+  countryEntities: storeState.country.entities,
+  countryEntity: storeState.country.entity,
   stepEntity: storeState.step.entity,
   loading: storeState.step.loading,
   updating: storeState.step.updating,
@@ -202,8 +233,9 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getCities,
   getCity,
+  getCountry,
+  getCountries,
   getEntity,
   updateEntity,
   reset

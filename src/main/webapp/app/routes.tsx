@@ -40,6 +40,7 @@ const Routes = () => (
       <ErrorBoundaryRoute path="/index" component={Index} />
       <ErrorBoundaryRoute path="/profile" component={Profile} />
       <ErrorBoundaryRoute path="/travel" component={Travel} />
+      <ErrorBoundaryRoute path="/step" component={Step} />
       <PrivateRoute path="/home" component={Home} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
       <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
       <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />

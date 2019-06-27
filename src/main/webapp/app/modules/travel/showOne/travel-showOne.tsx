@@ -8,15 +8,19 @@ import { ICrudGetAction, TextFormat } from 'react-jhipster';
 import StepCardItem from 'app/shared/layout/stepCard/step-card-item';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
-import { getEntity as getTravel, deleteEntity as deleteTravel } from 'app/modules/travel/travel.reducer';
-import { createEntity as createStep, reset as resetStep } from 'app/modules/step/step.reducer';
-import { getEntities as getCities, getEntity as getCity } from 'app/entities/city/city.reducer';
+import { getEntity as getTravel, deleteEntity as deleteTravel, updateEntity as updateTravel } from 'app/modules/travel/travel.reducer';
+import { createEntity as createStep, reset as resetStep, deleteEntity as deleteStep } from 'app/modules/step/step.reducer';
+import { getEntity as getCity } from 'app/entities/city/city.reducer';
+import { getEntities as getCountries, getEntity as getCountry } from 'app/entities/country/country.reducer';
+import { getEntities as getUsers } from 'app/entities/user-extra/user-extra.reducer';
+import { deleteEntity as deletePhoto } from 'app/entities/photo/photo.reducer';
 import { ITravel } from 'app/shared/model/travel.model';
 // tslint:disable-next-line:no-unused-variable
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { IIndexState } from 'app/modules/index';
 import moment from 'moment';
 import { mapIdList } from 'app/shared/util/entity-utils';
+import { convertDateTimeToServer } from 'app/shared/util/date-utils';
 
 const compareStartEndDate = (value, ctx) => {
   if (ctx.startDate > ctx.endDate) {
@@ -30,32 +34,52 @@ export interface ITravelOneProps extends StateProps, DispatchProps, RouteCompone
 export interface ITravelOne {
   showDeleteTravelModal: boolean;
   showCreateStepModal: boolean;
+  showManageUserModal: boolean;
+  citiesList: any;
   placesList: any;
+  toRefresh: boolean;
 }
 
 export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
   state: ITravelOne = {
     showDeleteTravelModal: false,
     showCreateStepModal: false,
-    placesList: null
+    showManageUserModal: false,
+    citiesList: null,
+    placesList: null,
+    toRefresh: false
   };
 
   componentDidMount() {
     this.props.getTravel(this.props.match.params.id);
-    this.props.getCities();
+    this.props.getUsers();
+    this.props.getCountries();
   }
 
-  // Delete Travel
-  confirmDeleteTravel = event => {
-    this.props.deleteTravel(this.props.travelEntity.id);
-    event.stopPropagation();
-    document.location.href = 'profile';
-  };
+  // Delete the travel part
   toggleDeleteTravelModal = event => {
     this.setState({ showDeleteTravelModal: !this.state.showDeleteTravelModal });
   };
+  confirmDeleteTravel = event => {
+    if (this.props.travelEntity.steps) {
+      this.props.travelEntity.steps.map((step, i) => this.deleteStepOfTravel(step));
+    }
+    // @ts-ignore
+    this.props.deleteTravel(this.props.travelEntity.id).then(result => {
+      document.location.href = 'profile';
+    });
+  };
+  deleteStepOfTravel = step => {
+    if (step.photos) {
+      step.photos.map((val, i) => this.props.deletePhoto(val.id));
+    }
+    this.props.deleteStep(step.id);
+  };
 
-  // Create a new step
+  // Create a new step part
+  toggleCreateStepModal = event => {
+    this.setState({ showCreateStepModal: !this.state.showCreateStepModal, citiesList: null, placesList: null });
+  };
   confirmCreateStep = (event, errors, values) => {
     // Current time
     const now = moment().unix();
@@ -82,10 +106,40 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
     }
   };
 
-  toggleCreateStepModal = event => {
-    this.setState({ showCreateStepModal: !this.state.showCreateStepModal });
+  // Manage users of travel part
+  toggleManageUserModal = event => {
+    this.setState({ showManageUserModal: !this.state.showManageUserModal });
+  };
+  confirmManageUser = (event, errors, values) => {
+    if (values.users.length > 0 && errors.length === 0) {
+      // Current time
+      const now = moment().unix();
+      values.updatedAt = now;
+      const { travelEntity } = this.props;
+      const entity = {
+        ...travelEntity,
+        ...values,
+        users: mapIdList(values.users)
+      };
+      delete entity.steps;
+
+      // @ts-ignore
+      this.props.updateTravel(entity).then(result => {
+        this.toggleManageUserModal(event);
+        this.props.getTravel(this.props.match.params.id);
+      });
+    }
   };
 
+  /*
+   * Change cities possibilities depending on the country selected
+   */
+  filterCities = (event, values) => {
+    // @ts-ignore
+    this.props.getCountry(values).then(result => {
+      this.setState({ citiesList: result.value.data.cities, placesList: null });
+    });
+  };
   /*
    * Change places possibilities depending on the city selected
    */
@@ -96,9 +150,17 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
     });
   };
 
+  /*
+   * Refresh current travel
+   */
+  updateTravelDisplay = event => {
+    this.props.getTravel(this.props.match.params.id);
+  };
+
   render() {
-    const { travelEntity, cityEntities } = this.props;
-    const { showDeleteTravelModal, showCreateStepModal, placesList } = this.state;
+    const { travelEntity, countryEntities, userExtraEntities } = this.props;
+    const { showDeleteTravelModal, showCreateStepModal, showManageUserModal, placesList, citiesList } = this.state;
+
     return (
       <Row>
         <Col sm="5">
@@ -127,6 +189,10 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
               <Button onClick={this.toggleCreateStepModal} replace color="primary">
                 <FontAwesomeIcon icon="plus" /> <span className="d-none d-md-inline">Create new step</span>
               </Button>
+              &nbsp;
+              <Button onClick={this.toggleManageUserModal} replace color="primary">
+                <FontAwesomeIcon icon="user" /> <span className="d-none d-md-inline">Manage users</span>
+              </Button>
             </div>
           </div>
         </Col>
@@ -134,7 +200,8 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
         <Col sm="7">
           <h1 className="step-list-title">STEPS</h1>
           <div id="step-list" className="step-list-container">
-            {travelEntity.steps !== undefined && travelEntity.steps.map((step, i) => <StepCardItem step={step} />)}
+            {travelEntity.steps !== undefined &&
+              travelEntity.steps.map((step, i) => <StepCardItem key={i} update={this.updateTravelDisplay} step={step} />)}
           </div>
         </Col>
 
@@ -154,7 +221,9 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
         </Modal>
 
         <Modal isOpen={showCreateStepModal} className="modalCreateStep">
-          <ModalHeader toggle={this.toggleCreateStepModal}>Create a step to this travel</ModalHeader>
+          <ModalHeader toggle={this.toggleCreateStepModal}>
+            Create a step to <b>{travelEntity.title}</b>
+          </ModalHeader>
 
           <AvForm onSubmit={this.confirmCreateStep}>
             <ModalBody>
@@ -202,11 +271,24 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
                 </Col>
               </Row>
               <AvGroup>
+                <Label>Country</Label>
+                <AvInput id="country" type="select" className="form-control" name="country.id" onChange={this.filterCities}>
+                  <option value="" key="0" />
+                  {countryEntities
+                    ? countryEntities.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.name}
+                        </option>
+                      ))
+                    : null}
+                </AvInput>
+              </AvGroup>
+              <AvGroup>
                 <Label for="step-city">City</Label>
                 <AvInput id="step-city" type="select" className="form-control" name="city.id" onChange={this.filterPlaces}>
                   <option value="" key="0" />
-                  {cityEntities
-                    ? cityEntities.map(otherEntity => (
+                  {citiesList
+                    ? citiesList.map(otherEntity => (
                         <option value={otherEntity.id} key={otherEntity.id}>
                           {otherEntity.name}
                         </option>
@@ -241,18 +323,71 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
             </ModalFooter>
           </AvForm>
         </Modal>
+
+        <Modal isOpen={showManageUserModal} className="modalCreateStep">
+          <ModalHeader toggle={this.toggleManageUserModal}>
+            Manage Users of <b>{travelEntity.title}</b>
+          </ModalHeader>
+          <AvForm onSubmit={this.confirmManageUser}>
+            <ModalBody>
+              <AvGroup>
+                <Label for="travel-users">Users</Label>
+                <AvInput
+                  id="travel-users"
+                  type="select"
+                  multiple
+                  className="form-control"
+                  name="users"
+                  value={travelEntity.users && travelEntity.users.map(e => e.id)}
+                >
+                  <option value="" key="0" />
+                  {userExtraEntities
+                    ? userExtraEntities.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.user.login}
+                        </option>
+                      ))
+                    : null}
+                </AvInput>
+              </AvGroup>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="secondary" onClick={this.toggleManageUserModal}>
+                <FontAwesomeIcon icon="ban" />
+                &nbsp; Close
+              </Button>
+              <Button id="jhi-confirm-create-step" color="primary" type="submit" onClick={this.confirmManageUser}>
+                <FontAwesomeIcon icon="save" />
+                &nbsp; Apply
+              </Button>
+            </ModalFooter>
+          </AvForm>
+        </Modal>
       </Row>
     );
   }
 }
 
-const mapStateToProps = ({ travel, step, city }: IRootState) => ({
+const mapStateToProps = ({ travel, step, country, userExtra }: IRootState) => ({
   travelEntity: travel.entity,
   stepEntity: step.entity,
-  cityEntities: city.entities
+  countryEntities: country.entities,
+  userExtraEntities: userExtra.entities
 });
 
-const mapDispatchToProps = { getTravel, deleteTravel, createStep, getCities, getCity, resetStep };
+const mapDispatchToProps = {
+  getTravel,
+  deleteTravel,
+  updateTravel,
+  createStep,
+  getCity,
+  getCountry,
+  getCountries,
+  resetStep,
+  deleteStep,
+  deletePhoto,
+  getUsers
+};
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * A Country.
  */
@@ -30,7 +32,8 @@ public class Country implements Serializable {
     @Column(name = "code", length = 2, nullable = false)
     private String code;
 
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"cities"})
     private Set<City> cities = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
