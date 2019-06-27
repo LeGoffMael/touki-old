@@ -16,7 +16,7 @@ import { IPlace } from 'app/shared/model/place.model';
 import { getEntities as getPlaces } from 'app/entities/place/place.reducer';
 import { IPhoto } from 'app/shared/model/photo.model';
 import { getEntities as getPhotos } from 'app/entities/photo/photo.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './step.reducer';
+import { getEntity, updateEntity, createEntity, reset } from '../../modules/step/step.reducer';
 import { IStep } from 'app/shared/model/step.model';
 // tslint:disable-next-line:no-unused-variable
 import { convertDateTimeFromServer, convertDateTimeToServer } from 'app/shared/util/date-utils';

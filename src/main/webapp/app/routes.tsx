@@ -10,6 +10,7 @@ import Home from 'app/modules/home/home';
 import Index from 'app/modules/index/index';
 import Profile from 'app/modules/profile/index';
 import Travel from 'app/modules/travel/index';
+import Step from 'app/modules/step/index';
 import Entities from 'app/entities';
 import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';

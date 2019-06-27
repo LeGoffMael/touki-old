@@ -7,12 +7,13 @@ import { Row, Col, Button, Nav, NavItem, NavLink, TabContent, TabPane } from 're
 
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
-import { getEntity } from 'app/entities/user-extra/user-extra.reducer';
+import { getEntity, reset, updateEntity } from 'app/entities/user-extra/user-extra.reducer';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faAt, faPlane, faUserFriends, faUsers, faCertificate, faPercent } from '@fortawesome/free-solid-svg-icons';
 import UserCardItem from 'app/shared/layout/userCard/user-card-item';
 import TravelCardItem from 'app/shared/layout/travelCard/travel-card-item';
+import { mapIdList } from 'app/shared/util/entity-utils';
 
 export interface IProfileProp extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -24,6 +25,7 @@ export interface IProfileState {
   nbFollowing: number;
   nbFollowers: number;
   nbBadges: number;
+  isLoading: boolean;
 }
 
 export class Profile extends React.Component<IProfileProp, IProfileState> {
@@ -34,7 +36,8 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
     nbTravels: 0,
     nbFollowing: 0,
     nbFollowers: 0,
-    nbBadges: 0
+    nbBadges: 0,
+    isLoading: true
   };
 
   componentDidMount() {
@@ -71,9 +74,75 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
             }
           }
         }
+        this.setState({ isLoading: false });
       });
     }
   }
+
+  /*
+   * Add displayed user to connected user following list
+   */
+  followUser = event => {
+    // @ts-ignore
+    this.props.getEntity(this.props.account.id).then(result => {
+      this.setState({ isLoading: true });
+      const connectedExtraUser = result.value.data;
+      connectedExtraUser.followings = connectedExtraUser.followings.map((user, i) => user.id.toString());
+      connectedExtraUser.followings.push(this.props.match.params.id.toString());
+      connectedExtraUser.travels = connectedExtraUser.travels.map((travel, i) => travel.id.toString());
+
+      const entity = {
+        ...result.value.data,
+        ...connectedExtraUser,
+        travels: mapIdList(connectedExtraUser.travels),
+        followings: mapIdList(connectedExtraUser.followings)
+      };
+
+      // @ts-ignore
+      this.props.updateEntity(entity).then(updatedResult => {
+        this.props.reset();
+        this.setState({ isFollowing: true });
+        // @ts-ignore
+        this.props.getEntity(this.props.match.params.id).then(finalResult => {
+          this.setState({ isLoading: false });
+        });
+      });
+    });
+  };
+
+  /*
+   * Remove displayed user to connected user following list
+   */
+  unfollowUser = event => {
+    // @ts-ignore
+    this.props.getEntity(this.props.account.id).then(result => {
+      this.setState({ isLoading: true });
+
+      const connectedExtraUser = result.value.data;
+
+      connectedExtraUser.followings = connectedExtraUser.followings.map((user, i) => user.id.toString());
+      const userToUnfollow = this.props.match.params.id.toString();
+      connectedExtraUser.followings = connectedExtraUser.followings.filter(e => e !== userToUnfollow);
+      connectedExtraUser.travels = connectedExtraUser.travels.map((travel, i) => travel.id.toString());
+
+      const entity = {
+        ...result.value.data,
+        ...connectedExtraUser,
+        travels: mapIdList(connectedExtraUser.travels),
+        followings: mapIdList(connectedExtraUser.followings)
+      };
+
+      // @ts-ignore
+      this.props.updateEntity(entity).then(updatedResult => {
+        this.props.reset();
+        this.setState({ isFollowing: false });
+        // @ts-ignore
+        this.props.getEntity(this.props.match.params.id).then(finalResult => {
+          this.setState({ isLoading: false });
+        });
+      });
+    });
+  };
 
   toggleTab(tab) {
     if (this.state.activeTab !== tab) {
@@ -91,10 +160,10 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
     this.state.nbBadges = this.props.userExtraEntity.badges == null ? 0 : this.props.userExtraEntity.badges.length;
 
     const { userExtraEntity } = this.props;
-    const { himSelf, isFollowing, activeTab, nbTravels, nbFollowing, nbFollowers, nbBadges } = this.state;
+    const { himSelf, isFollowing, activeTab, nbTravels, nbFollowing, nbFollowers, nbBadges, isLoading } = this.state;
     return (
       <div>
-        {userExtraEntity.user !== undefined ? (
+        {!isLoading ? (
           <Row className="touki-profile">
             <Col md="3">
               <Row className="profile-img">
@@ -119,11 +188,11 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
                     Edit profile
                   </Button>
                 ) : !isFollowing ? (
-                  <Button outline href="" className="profile-btn profile-add-btn">
+                  <Button outline onClick={this.followUser} className="profile-btn profile-add-btn">
                     Follow
                   </Button>
                 ) : (
-                  <Button outline href="" className="profile-btn profile-dlt-btn">
+                  <Button outline onClick={this.unfollowUser} className="profile-btn profile-dlt-btn">
                     <span>Following</span>
                     <span>Unfollow</span>
                   </Button>
@@ -286,7 +355,7 @@ const mapStateToProps = ({ authentication, userExtra }: IRootState) => ({
   userExtraEntity: userExtra.entity
 });
 
-const mapDispatchToProps = { getSession, getEntity };
+const mapDispatchToProps = { getSession, getEntity, reset, updateEntity };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

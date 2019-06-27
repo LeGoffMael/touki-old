@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
 import { IStep } from 'app/shared/model/step.model';
-import { getEntities as getSteps } from 'app/entities/step/step.reducer';
+import { getEntities as getSteps } from 'app/modules/step/step.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './photo.reducer';
 import { IPhoto } from 'app/shared/model/photo.model';
 // tslint:disable-next-line:no-unused-variable

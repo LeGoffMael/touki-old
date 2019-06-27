@@ -54,11 +54,6 @@ export class TravelUpdate extends React.Component<ITravelUpdateProps, ITravelUpd
   }
 
   saveEntity = (event, errors, values) => {
-    /*
-    if (values.startDate !== '' && values.endDate !== '' && values.startDate > values.endDate) {
-      errors.push('The start date cannot be after the end date');
-    }
-    */
     // Current time
     const now = moment().unix();
     if (this.state.isNew) {

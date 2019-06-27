@@ -13,7 +13,7 @@ import reducer, {
   getEntity,
   updateEntity,
   reset
-} from 'app/entities/step/step.reducer';
+} from 'app/modules/step/step.reducer';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { IStep, defaultValue } from 'app/shared/model/step.model';
 

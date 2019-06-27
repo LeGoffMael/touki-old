@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IStep } from 'app/shared/model/step.model';
 import { IRootState } from 'app/shared/reducers';
-import { getEntity, deleteEntity } from './step.reducer';
+import { getEntity, deleteEntity } from '../../modules/step/step.reducer';
 
 export interface IStepDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 

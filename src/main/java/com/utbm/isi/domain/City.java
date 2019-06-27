@@ -39,7 +39,8 @@ public class City implements Serializable {
     @OneToMany(mappedBy = "city")
     private Set<Step> steps = new HashSet<>();
 
-    @OneToMany(mappedBy = "city")
+    @OneToMany(mappedBy = "city", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"places"})
     private Set<Place> places = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

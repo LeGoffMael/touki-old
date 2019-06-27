@@ -22,7 +22,7 @@ import userExtra, {
 // prettier-ignore
 import step, {
   StepState
-} from 'app/entities/step/step.reducer';
+} from 'app/modules/step/step.reducer';
 // prettier-ignore
 import photo, {
   PhotoState

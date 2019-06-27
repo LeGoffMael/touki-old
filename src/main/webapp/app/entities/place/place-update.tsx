@@ -11,7 +11,7 @@ import { IRootState } from 'app/shared/reducers';
 import { ICity } from 'app/shared/model/city.model';
 import { getEntities as getCities } from 'app/entities/city/city.reducer';
 import { IStep } from 'app/shared/model/step.model';
-import { getEntities as getSteps } from 'app/entities/step/step.reducer';
+import { getEntities as getSteps } from 'app/modules/step/step.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './place.reducer';
 import { IPlace } from 'app/shared/model/place.model';
 // tslint:disable-next-line:no-unused-variable
