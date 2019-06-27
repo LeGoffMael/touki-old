@@ -58,8 +58,10 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
   fetchUserData() {
     // If the user to display is the connected user
     if (this.props.account.id !== undefined && (this.state.himSelf || this.props.account.id === this.props.match.params.id)) {
-      this.props.getEntity(this.props.account.id);
-      this.state.himSelf = true;
+      // @ts-ignore
+      this.props.getEntity(this.props.account.id).then(response => {
+        this.setState({ isLoading: false, himSelf: true });
+      });
       // Else display the user id provide in the path
     } else if (!this.state.himSelf) {
       // @ts-ignore
@@ -74,9 +76,12 @@ export class Profile extends React.Component<IProfileProp, IProfileState> {
             }
           }
         }
+        this.setState({ isLoading: false });
       });
+
+      if (this.props.account) {
+      }
     }
-    this.setState({ isLoading: false });
   }
 
   /*
