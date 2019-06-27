@@ -10,7 +10,6 @@ export interface IStepCardItem {
 export default class StepCardItem extends React.Component<IStepCardItem> {
   render() {
     const { step } = this.props;
-    console.log(step);
     return (
       <div className="step-list-bloc">
         <div className="step-list-node" />

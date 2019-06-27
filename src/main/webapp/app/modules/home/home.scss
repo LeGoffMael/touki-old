@@ -17,21 +17,3 @@ Main page styles
   border-top: 0.5px solid #849199;
 }
 
-/*********************************************************/
-/********************** CONTAINER ***********************/
-/*******************************************************/
-
-.timeline-container {
-  /* this class is used to give a max-width to the element it is applied to, and center it horizontally 
- when it reaches that max-width */
-  width: 90%;
-  max-width: 1170px;
-  margin: 0 auto;
-}
-
-.timeline-container::after {
-  /* clearfix */
-  content: '';
-  display: table;
-  clear: both;
-}
