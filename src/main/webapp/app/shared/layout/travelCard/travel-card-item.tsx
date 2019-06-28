@@ -45,7 +45,16 @@ export default class TravelCardItem extends React.Component<ITravelCardItem> {
                   <div className="card-body">
                     <h4 className="card-title">{title}</h4>
                     <p className="card-text">{description}</p>
-                    <p className="card-users">Jean, Jacques, Goldman</p>
+                    <Row className="profile-picture-box">
+                    {users !== undefined &&
+                      users.map((userList, i) => (
+                        <Col sm="2">
+                          <a href={'profile/' + userList.user.id}>
+                            <img className="profile-picture-user rounded-circle" src={userList.user.imageUrl} />
+                          </a>
+                        </Col>
+                    ))}
+                    </Row>
                   </div>
                 </Col>
               </Row>

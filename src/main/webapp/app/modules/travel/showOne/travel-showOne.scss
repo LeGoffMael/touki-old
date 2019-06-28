@@ -14,6 +14,11 @@
   margin-bottom: 0;
 }
 
+#travel-users table tr td a{
+  text-decoration: none;
+  color: #1da1f2;
+}
+
 #travel-informations p {
   margin-bottom: 0px;
 }
@@ -35,14 +40,18 @@
   border-radius: 0.35rem;
   padding: 2px 10px;
 }
-.travel-status.status-planned {
+.travel-status.status-done {
   background-color: rgba(0, 255, 0, 0.9);
 }
 .travel-status.status-current {
   background-color: rgba(255, 210, 7, 0.9);
 }
-.travel-status.status-done {
-  background-color: rgba(0, 0, 255, 0.9);
+.travel-status.status-planned {
+  background-color: rgba(255, 192, 181, 0.9);
+}
+
+#travel-users .profile-picture-user {
+  width:80%;
 }
 
 .travel-date {
@@ -52,6 +61,7 @@
 
 .sticky-box {
   position: fixed;
+  width: 100%;
 }
 
 @media only screen and (max-width: 576px) {
