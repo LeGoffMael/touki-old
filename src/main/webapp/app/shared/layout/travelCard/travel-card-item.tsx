@@ -18,7 +18,6 @@ export interface ITravelCardItem {
 export default class TravelCardItem extends React.Component<ITravelCardItem> {
   render() {
     const { image, title, description, id, users, fromProfile } = this.props;
-    console.log(this.props);
     if (fromProfile === true) {
       return (
         <Col md="4">

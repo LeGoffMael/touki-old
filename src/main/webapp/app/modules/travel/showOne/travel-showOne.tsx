@@ -10,6 +10,7 @@ import { ICrudGetAction, TextFormat } from 'react-jhipster';
 import StepCardItem from 'app/shared/layout/stepCard/step-card-item';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
+import { getSession } from 'app/shared/reducers/authentication';
 import { getEntity as getTravel, deleteEntity as deleteTravel, updateEntity as updateTravel } from 'app/modules/travel/travel.reducer';
 import { createEntity as createStep, reset as resetStep, deleteEntity as deleteStep } from 'app/modules/step/step.reducer';
 import { getEntity as getCity } from 'app/entities/city/city.reducer';
@@ -40,6 +41,7 @@ export interface ITravelOne {
   citiesList: any;
   placesList: any;
   toRefresh: boolean;
+  isUser: boolean;
 }
 
 export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
@@ -49,11 +51,25 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
     showManageUserModal: false,
     citiesList: null,
     placesList: null,
-    toRefresh: false
+    toRefresh: false,
+    isUser: false
   };
 
   componentDidMount() {
-    this.props.getTravel(this.props.match.params.id);
+    this.props.getSession();
+    // @ts-ignore
+    this.props.getTravel(this.props.match.params.id).then(response => {
+      // Check if connected user follow user passed
+      if (response.value.data.users !== null) {
+        for (const user of response.value.data.users) {
+          if (user.id === this.props.account.id) {
+            this.state.isUser = true;
+            this.forceUpdate();
+            break;
+          }
+        }
+      }
+    });
     this.props.getUsers();
     this.props.getCountries();
   }
@@ -161,7 +177,7 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
 
   render() {
     const { travelEntity, countryEntities, userExtraEntities } = this.props;
-    const { showDeleteTravelModal, showCreateStepModal, showManageUserModal, placesList, citiesList } = this.state;
+    const { showDeleteTravelModal, showCreateStepModal, showManageUserModal, placesList, citiesList, isUser } = this.state;
 
     return (
       <Row>
@@ -187,23 +203,25 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
                   ))}
               </Table>
             </div>
-            <div className="col-sm-4">
-              <Button tag={Link} to={`/travel/${travelEntity.id}/edit`} replace outline color="primary">
-                <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
-              </Button>
-              &nbsp;
-              <Button onClick={this.toggleDeleteTravelModal} replace color="danger">
-                <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
-              </Button>
-              &nbsp;
-              <Button onClick={this.toggleCreateStepModal} replace color="primary">
-                <FontAwesomeIcon icon="plus" /> <span className="d-none d-md-inline">Create new step</span>
-              </Button>
-              &nbsp;
-              <Button onClick={this.toggleManageUserModal} replace color="primary">
-                <FontAwesomeIcon icon="user" /> <span className="d-none d-md-inline">Manage users</span>
-              </Button>
-            </div>
+            {isUser && (
+              <div className="col-sm-4">
+                <Button tag={Link} to={`/travel/${travelEntity.id}/edit`} replace outline color="primary">
+                  <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
+                </Button>
+                &nbsp;
+                <Button onClick={this.toggleDeleteTravelModal} replace color="danger">
+                  <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+                </Button>
+                &nbsp;
+                <Button onClick={this.toggleCreateStepModal} replace color="primary">
+                  <FontAwesomeIcon icon="plus" /> <span className="d-none d-md-inline">Create new step</span>
+                </Button>
+                &nbsp;
+                <Button onClick={this.toggleManageUserModal} replace color="primary">
+                  <FontAwesomeIcon icon="user" /> <span className="d-none d-md-inline">Manage users</span>
+                </Button>
+              </div>
+            )}
           </div>
         </Col>
 
@@ -211,7 +229,7 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
           <h1 className="step-list-title">STEPS</h1>
           <div id="step-list" className="step-list-container">
             {travelEntity.steps !== undefined &&
-              travelEntity.steps.map((step, i) => <StepCardItem key={i} update={this.updateTravelDisplay} step={step} />)}
+              travelEntity.steps.map((step, i) => <StepCardItem key={i} update={this.updateTravelDisplay} isUser={isUser} step={step} />)}
           </div>
         </Col>
 
@@ -378,7 +396,8 @@ export class TravelOne extends React.Component<ITravelOneProps, ITravelOne> {
   }
 }
 
-const mapStateToProps = ({ travel, step, country, userExtra }: IRootState) => ({
+const mapStateToProps = ({ authentication, travel, step, country, userExtra }: IRootState) => ({
+  account: authentication.account,
   travelEntity: travel.entity,
   stepEntity: step.entity,
   countryEntities: country.entities,
@@ -386,6 +405,7 @@ const mapStateToProps = ({ travel, step, country, userExtra }: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getSession,
   getTravel,
   deleteTravel,
   updateTravel,

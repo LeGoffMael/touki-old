@@ -15,6 +15,7 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 
 export interface IStepCardItemProps extends StateProps, DispatchProps {
   step: any;
+  isUser: boolean;
   update(event): void;
 }
 
@@ -89,28 +90,38 @@ export class StepCardItem extends React.Component<IStepCardItemProps, IStepCardI
   };
 
   render() {
-    const { step } = this.props;
+    const { step, isUser } = this.props;
     const { showDeleteStepModal, showCreatePhotoModal, showDeletePhotoModal } = this.state;
 
     return (
       <div className="step-list-bloc">
         <div className="step-list-node" />
         <div className="step-content">
-          <Button tag={Link} to={`/step/${step.id}/edit`} outline color="primary">
-            <FontAwesomeIcon icon="pencil-alt" />
-          </Button>
-          &nbsp;
-          <Button onClick={this.toggleDeleteStepModal} color="danger">
-            <FontAwesomeIcon icon="trash" />
-          </Button>
-          &nbsp;
-          <Button onClick={this.toggleCreatePhotoModal} color="primary">
-            <FontAwesomeIcon icon="plus" /> <span className="d-none d-md-inline">New photo</span>
-          </Button>
+          {isUser && (
+            <div>
+              <Button tag={Link} to={`/step/${step.id}/edit`} outline color="primary">
+                <FontAwesomeIcon icon="pencil-alt" />
+              </Button>
+              &nbsp;
+              <Button onClick={this.toggleDeleteStepModal} color="danger">
+                <FontAwesomeIcon icon="trash" />
+              </Button>
+              &nbsp;
+              <Button onClick={this.toggleCreatePhotoModal} color="primary">
+                <FontAwesomeIcon icon="plus" /> <span className="d-none d-md-inline">New photo</span>
+              </Button>
+            </div>
+          )}
           <h2>{step.title}</h2>
           <p className="step-description">{step.description}</p>
           {/* tslint:disable-next-line:jsx-no-lambda */}
-          {step.photos[0] !== undefined && <img onClick={() => this.toggleDeletePhotoModal(step.photos[0].id)} src={step.photos[0].link} />}
+          {step.photos[0] !== undefined &&
+            (isUser ? (
+              // tslint:disable-next-line:jsx-no-lambda
+              <img onClick={() => this.toggleDeletePhotoModal(step.photos[0].id)} src={step.photos[0].link} />
+            ) : (
+              <img src={step.photos[0].link} />
+            ))}
           <p className="step-date">
             From {step.startDate} to {step.endDate}
           </p>

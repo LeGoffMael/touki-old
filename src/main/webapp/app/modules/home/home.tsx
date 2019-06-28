@@ -9,17 +9,18 @@ import TravelCardItem from 'app/shared/layout/travelCard/travel-card-item';
 
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
+import { getEntities as getTravels } from 'app/modules/travel/travel.reducer';
 
 export interface IHomeProp extends StateProps, DispatchProps {}
 
 export class Home extends React.Component<IHomeProp> {
   componentDidMount() {
     this.props.getSession();
+    this.props.getTravels();
   }
 
   render() {
-    const { account } = this.props;
-    console.log(this.props);
+    const { account, travelEntities } = this.props;
     return (
       <Row>
         <Col md="3">
@@ -32,51 +33,32 @@ export class Home extends React.Component<IHomeProp> {
           <section>
             <div className="container">
               <Row className="card-deck">
-                {/*{userExtraEntity.travels.map((travel, i) => (
-                  <TravelCardItem
-                    key={i}
-                    id={1101}
-                    image="content/images/default-photo.png"
-                    {/*
-                      travel.steps[0] !== undefined
-                        ? travel.steps[0].photos[0] !== undefined
-                          ? travel.steps[0].photos[0].link
-                          : 'content/images/default-photo.png'
-                        : 'content/images/default-photo.png'
-                    }
-                    title="Mon premier voyage"
-                    description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur."
-                    fromProfile=false
-                  />
-                ))*/}
-                <TravelCardItem
-                  id={1101}
-                  image="content/images/default-photo.png"
-                  title="Mon premier voyage"
-                  description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur."
-                  fromProfile={false}
-                />
-                <TravelCardItem
-                  id={11021}
-                  image="content/images/default-photo.png"
-                  title="Mon premier voyage"
-                  description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur."
-                  fromProfile={false}
-                />
-                <TravelCardItem
-                  id={11201}
-                  image="content/images/default-photo.png"
-                  title="Mon premier voyage"
-                  description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur."
-                  fromProfile={false}
-                />
-                <TravelCardItem
-                  id={11101}
-                  image="content/images/default-photo.png"
-                  title="Mon premier voyage"
-                  description="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur."
-                  fromProfile={false}
-                />
+                {travelEntities && travelEntities.length > 0 ? (
+                  <section>
+                    <div className="container">
+                      <Row>
+                        {travelEntities.map((travel, i) => (
+                          <TravelCardItem
+                            image={
+                              travel.steps[0] !== undefined
+                                ? travel.steps[0].photos[0] !== undefined
+                                  ? travel.steps[0].photos[0].link
+                                  : 'content/images/default-photo.png'
+                                : 'content/images/default-photo.png'
+                            }
+                            title={travel.title}
+                            description={travel.description}
+                            id={travel.id}
+                            users={travel.users}
+                            fromProfile={false}
+                          />
+                        ))}
+                      </Row>
+                    </div>
+                  </section>
+                ) : (
+                  <div className="alert alert-warning">No Travels found</div>
+                )}
               </Row>
             </div>
           </section>
@@ -88,10 +70,11 @@ export class Home extends React.Component<IHomeProp> {
 
 const mapStateToProps = storeState => ({
   account: storeState.authentication.account,
-  isAuthenticated: storeState.authentication.isAuthenticated
+  isAuthenticated: storeState.authentication.isAuthenticated,
+  travelEntities: storeState.travel.entities
 });
 
-const mapDispatchToProps = { getSession };
+const mapDispatchToProps = { getSession, getTravels };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
