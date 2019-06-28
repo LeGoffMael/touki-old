@@ -21,10 +21,15 @@
 
 .travel-card .profile-picture-box {
   margin-top: 25px;
+
+  > div {
+    padding: 0;
+    text-align: center;
+  }
 }
 
 .travel-card .profile-picture-user {
-  width:80%;
+  width: 60%;
 }
 
 .travel-card .card-image {
@@ -45,4 +50,3 @@
   font-weight: normal;
   font-style: italic;
 }
-

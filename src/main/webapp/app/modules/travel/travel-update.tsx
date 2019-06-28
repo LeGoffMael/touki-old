@@ -203,12 +203,17 @@ export class TravelUpdate extends React.Component<ITravelUpdateProps, ITravelUpd
                   </Label>
                   <AvField id="travel-precaution" type="textarea" name="precaution" />
                 </AvGroup>
-                <Button id="cancel-save" replace color="info">
-                  <FontAwesomeIcon icon="arrow-left" />
-                  &nbsp;
-                  <span className="d-none d-md-inline">Back</span>
-                </Button>
-                &nbsp;
+                {!isNew ? (
+                  <Link className="cancel-save" to={`/travel/${this.props.travelEntity.id}`} color="info">
+                    <FontAwesomeIcon icon="arrow-left" />
+                    <span className="d-none d-md-inline">Back</span>
+                  </Link>
+                ) : (
+                  <Link className="cancel-save" to={`/profile/${this.props.account.id}`} color="info">
+                    <FontAwesomeIcon icon="arrow-left" />
+                    <span className="d-none d-md-inline">Back</span>
+                  </Link>
+                )}
                 <Button color="primary" id="save-entity" type="submit" disabled={updating}>
                   <FontAwesomeIcon icon="save" />
                   &nbsp; Save

@@ -26,7 +26,9 @@ export class Home extends React.Component<IHomeProp> {
         <Col md="3">
           <div className="trendingDestination">
             <p className="text-center font-weight-bold"> Trending destinations</p>
-            <div className="trendingDestinationList" />
+            <div className="trendingDestinationList">
+              <p>In coming</p>
+            </div>
           </div>
         </Col>
         <Col md="9">
